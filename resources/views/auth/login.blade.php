@@ -33,10 +33,16 @@
                                     <div class="text-center mt-4">
                                         <h1 class="h2">Welcome back Admin</h1>
                                         {{-- <p class="lead">
-                                Sign in to your account to continue
-                            </p> --}}
+                                            Sign in to your account to continue
+                                        </p> --}}
                                     </div>
-                                    <form>
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            <b>Opps!</b> {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    <form action="{{ route('actionlogin') }}" method="post">
+                                        @csrf
                                         <div class="mb-3">
                                             <label class="form-label">Username</label>
                                             <input class="form-control form-control-lg" type="username" name="username"
@@ -46,21 +52,9 @@
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" name="password"
                                                 placeholder="Enter your password" />
-                                            <small>
-                                                <a href="index.html">Forgot password?</a>
-                                            </small>
-                                        </div>
-                                        <div>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="remember-me"
-                                                    name="remember-me" checked>
-                                                <span class="form-check-label">
-                                                    Remember me next time
-                                                </span>
-                                            </label>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <a href="index.html" class="btn btn-lg btn-primary w-100">Sign in</a>
+                                            <button type="submit" class="btn btn-lg btn-primary w-100">Sign in</button>
                                         </div>
                                     </form>
                                 </div>
