@@ -22,7 +22,14 @@ Route::post('actionlogout', [AuthController::class, 'actionlogout'])->name('acti
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/kategori', [MasterController::class, 'kategori'])->name('kategori');
+    Route::get('/add-kategori', [MasterController::class, 'addKategori'])->name('addKategori');
+    Route::post('/store-kategori', [MasterController::class, 'storeKategori'])->name('storeKategori');
+    Route::get('/edit-kategori/{id}', [MasterController::class, 'editKategori'])->name('editKategori');
+    Route::post('/update-kategori', [MasterController::class, 'updateKategori'])->name('updateKategori');
+
+
     Route::get('/satuan', [MasterController::class, 'unit'])->name('satuan');
     Route::get('/barang', [MasterController::class, 'goods'])->name('barang');
     Route::get('/supplier', [MasterController::class, 'supplier'])->name('supplier');
