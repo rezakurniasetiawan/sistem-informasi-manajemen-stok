@@ -6,6 +6,7 @@
 
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     feather.replace();
 </script>

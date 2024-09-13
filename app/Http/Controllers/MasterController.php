@@ -2,57 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MdUnit;
 use App\Models\MdCategory;
 use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
     // Kategori
-    public function kategori()
+    public function indexCategory()
     {
         $data = MdCategory::get();
-        return view('dashboard.feature.masterdata.categories.index', compact('data'));
+        $totalData = MdCategory::count();
+        return view('dashboard.feature.masterdata.categories.index', compact('data', 'totalData'));
     }
 
-    public function addKategori()
+    public function createCategory()
     {
         return view('dashboard.feature.masterdata.categories.add');
     }
 
-    public function storeKategori(Request $request)
+    public function storeCategory(Request $request)
     {
         $request->validate([
             'name_mdcategory' => 'required'
         ]);
 
         MdCategory::create($request->all());
-        return redirect()->route('kategori')->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('indexCategory')->with('success', 'Data berhasil ditambahkan');
     }
 
-    public function editKategori($id)
+    public function editCategory($id)
     {
         $data = MdCategory::where('id_mdcategory', $id)->first();
         return view('dashboard.feature.masterdata.categories.update', compact('data'));
     }
 
-    public function updateKategori(Request $request, $id)
+    public function updateCategory(Request $request, $id)
     {
         $request->validate([
             'name_mdcategory' => 'required'
         ]);
 
-        MdCategory::where('id_mdcategory', $id)->update($request->only('name_mdcategory'));
-        return redirect()->route('kategori')->with('success', 'Data berhasil diubah');
+        $update = [
+            'name_mdcategory' => $request->name_mdcategory
+        ];
+
+        MdCategory::where('id_mdcategory', '=', $id)->update($update);
+        return redirect()->route('indexCategory')->with('success', 'Data berhasil diubah');
     }
 
-
-
-
-
-    public function unit()
+    public function deleteCategory($id)
     {
-        return view('dashboard.feature.masterdata.units.index');
+        MdCategory::where('id_mdcategory', $id)->delete();
+        return redirect()->route('indexCategory')->with('success', 'Data berhasil dihapus');
     }
+
+
+
+
+
+    public function indexUnit()
+    {
+        $data = MdUnit::get();
+        $totalData = MdUnit::count();
+        return view('dashboard.feature.masterdata.units.index', compact('data', 'totalData'));
+    }
+
+    public function createUnit()
+    {
+        return view('dashboard.feature.masterdata.units.add');
+    }
+
+    public function storeUnit(Request $request)
+    {
+        $request->validate([
+            'name_mdunit' => 'required'
+        ]);
+
+        MdUnit::create($request->all());
+        return redirect()->route('indexUnit')->with('success', 'Data berhasil ditambahkan');
+    }
+
+
+
+
+
 
     public function goods()
     {

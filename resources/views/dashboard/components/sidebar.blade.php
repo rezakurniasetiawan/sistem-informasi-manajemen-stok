@@ -15,13 +15,13 @@
                 Data Master
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('kategori') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('kategori') }}">
+            <li class="sidebar-item {{ request()->routeIs('indexCategory') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexCategory') }}">
                     <i class="align-middle" data-feather="box"></i> <span class="align-middle">Kategori</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('satuan') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('satuan') }}">
+            <li class="sidebar-item {{ request()->routeIs('indexUnit') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexUnit') }}">
                     <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Satuan</span>
                 </a>
             </li>

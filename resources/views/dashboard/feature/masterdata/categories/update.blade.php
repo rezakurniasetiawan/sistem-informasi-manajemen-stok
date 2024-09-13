@@ -7,7 +7,7 @@
         <div class="col-6 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
                 {{-- Form to add new category --}}
-                <form action="{{ route('updateKategori') }}" method="POST">
+                <form action="{{ route('updateCategory', $data->id_mdcategory) }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama Kategori</label>

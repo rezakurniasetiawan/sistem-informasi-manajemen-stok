@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterController;
 |
 */
 
+Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('actionlogin', [AuthController::class, 'actionlogin'])->name('actionlogin');
 Route::post('actionlogout', [AuthController::class, 'actionlogout'])->name('actionlogout');
@@ -23,14 +24,20 @@ Route::post('actionlogout', [AuthController::class, 'actionlogout'])->name('acti
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/kategori', [MasterController::class, 'kategori'])->name('kategori');
-    Route::get('/add-kategori', [MasterController::class, 'addKategori'])->name('addKategori');
-    Route::post('/store-kategori', [MasterController::class, 'storeKategori'])->name('storeKategori');
-    Route::get('/edit-kategori/{id}', [MasterController::class, 'editKategori'])->name('editKategori');
-    Route::post('/update-kategori', [MasterController::class, 'updateKategori'])->name('updateKategori');
+    Route::get('/kategori', [MasterController::class, 'indexCategory'])->name('indexCategory');
+    Route::get('/add-kategori', [MasterController::class, 'createCategory'])->name('createCategory');
+    Route::post('/store-kategori', [MasterController::class, 'storeCategory'])->name('storeCategory');
+    Route::get('/edit-kategori/{id}', [MasterController::class, 'editCategory'])->name('editCategory');
+    Route::post('/update-kategori/{id}', [MasterController::class, 'updateCategory'])->name('updateCategory');
+    Route::get('/delete-kategori/{id}', [MasterController::class, 'deleteCategory'])->name('deleteCategory');
 
 
-    Route::get('/satuan', [MasterController::class, 'unit'])->name('satuan');
+    Route::get('/satuan', [MasterController::class, 'indexUnit'])->name('indexUnit');
+    Route::get('/add-satuan', [MasterController::class, 'createUnit'])->name('createUnit');
+    Route::post('/store-satuan', [MasterController::class, 'storeUnit'])->name('storeUnit');
+
+
+
     Route::get('/barang', [MasterController::class, 'goods'])->name('barang');
     Route::get('/supplier', [MasterController::class, 'supplier'])->name('supplier');
     Route::get('/user', [MasterController::class, 'user'])->name('user');
