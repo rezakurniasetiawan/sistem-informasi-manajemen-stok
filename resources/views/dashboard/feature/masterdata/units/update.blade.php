@@ -6,14 +6,14 @@
     <div class="row">
         <div class="col-6 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
-                {{-- Form to add new satuan --}}
-                <form action="{{ route('updateSatuan', $data->id_mdsatuan) }}" method="POST">
+                {{-- Form to add new unit --}}
+                <form action="{{ route('updateUnit', $data->id_mdunit) }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama Kategori</label>
-                        <input type="text" value="{{ $data->id_mdsatuan }}" hidden>
-                        <input type="text" class="form-control" id="name" name="name_mdsatuan"
-                            value="{{ $data->name_mdsatuan }}">
+                        <input type="text" value="{{ $data->id_mdunit }}" hidden>
+                        <input type="text" class="form-control" id="name" name="name_mdunit"
+                            value="{{ $data->name_mdunit }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

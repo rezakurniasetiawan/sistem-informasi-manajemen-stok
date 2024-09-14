@@ -15,12 +15,13 @@
                 Data Master
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('indexCategory') ? 'active' : '' }}">
+            <li
+                class="sidebar-item {{ request()->routeIs(['indexCategory', 'createCategory', 'editCategory']) ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('indexCategory') }}">
                     <i class="align-middle" data-feather="box"></i> <span class="align-middle">Kategori</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('indexUnit') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->routeIs(['indexUnit', 'createUnit', 'editUnit']) ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('indexUnit') }}">
                     <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Satuan</span>
                 </a>
@@ -30,13 +31,13 @@
                     <i class="align-middle" data-feather="package"></i> <span class="align-middle">Barang</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('supplier') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('supplier') }}">
+            <li class="sidebar-item {{ request()->routeIs(['indexSupplier', 'createSupplier', 'editSupplier']) ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexSupplier') }}">
                     <i class="align-middle" data-feather="truck"></i> <span class="align-middle">Supplier</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('user') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('user') }}">
+            <li class="sidebar-item {{ request()->routeIs(['indexUser', 'createUser', 'editUser']) ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexUser') }}">
                     <i class="align-middle" data-feather="users"></i> <span class="align-middle">User</span>
                 </a>
             </li>
@@ -47,12 +48,14 @@
 
             <li class="sidebar-item {{ request()->routeIs('barangMasuk') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('barangMasuk') }}">
-                    <i class="align-middle" data-feather="arrow-down-circle"></i> <span class="align-middle">Barang Masuk</span>
+                    <i class="align-middle" data-feather="arrow-down-circle"></i> <span class="align-middle">Barang
+                        Masuk</span>
                 </a>
             </li>
             <li class="sidebar-item {{ request()->routeIs('barangKeluar') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('barangKeluar') }}">
-                    <i class="align-middle" data-feather="arrow-up-circle"></i> <span class="align-middle">Barang Keluar</span>
+                    <i class="align-middle" data-feather="arrow-up-circle"></i> <span class="align-middle">Barang
+                        Keluar</span>
                 </a>
             </li>
 
@@ -62,17 +65,20 @@
 
             <li class="sidebar-item {{ request()->routeIs('laporanBarangMasuk') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('laporanBarangMasuk') }}">
-                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang Masuk</span>
+                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang
+                        Masuk</span>
                 </a>
             </li>
             <li class="sidebar-item {{ request()->routeIs('laporanBarangKeluar') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('laporanBarangKeluar') }}">
-                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang Keluar</span>
+                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang
+                        Keluar</span>
                 </a>
             </li>
             <li class="sidebar-item {{ request()->routeIs('syncStokFifo') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('syncStokFifo') }}">
-                    <i class="align-middle" data-feather="refresh-cw"></i> <span class="align-middle">Sync Stok FIFO</span>
+                    <i class="align-middle" data-feather="refresh-cw"></i> <span class="align-middle">Sync Stok
+                        FIFO</span>
                 </a>
             </li>
 

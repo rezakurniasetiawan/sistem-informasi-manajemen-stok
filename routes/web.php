@@ -35,12 +35,26 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/satuan', [MasterController::class, 'indexUnit'])->name('indexUnit');
     Route::get('/add-satuan', [MasterController::class, 'createUnit'])->name('createUnit');
     Route::post('/store-satuan', [MasterController::class, 'storeUnit'])->name('storeUnit');
+    Route::get('/edit-satuan/{id}', [MasterController::class, 'editUnit'])->name('editUnit');
+    Route::post('/update-satuan/{id}', [MasterController::class, 'updateUnit'])->name('updateUnit');
+    Route::get('/delete-satuan/{id}', [MasterController::class, 'deleteUnit'])->name('deleteUnit'); 
 
 
+    Route::get('/supplier', [MasterController::class, 'indexSupplier'])->name('indexSupplier');
+    Route::get('/add-supplier', [MasterController::class, 'createSupplier'])->name('createSupplier');
+    Route::post('/store-supplier', [MasterController::class, 'storeSupplier'])->name('storeSupplier');
+    Route::get('/edit-supplier/{id}', [MasterController::class, 'editSupplier'])->name('editSupplier');
+    Route::post('/update-supplier/{id}', [MasterController::class, 'updateSupplier'])->name('updateSupplier');
+    Route::get('/delete-supplier/{id}', [MasterController::class, 'deleteSupplier'])->name('deleteSupplier');
 
+    Route::get('/user', [MasterController::class, 'indexUser'])->name('indexUser');
+    Route::get('/add-user', [MasterController::class, 'createUser'])->name('createUser');
+    Route::post('/store-user', [MasterController::class, 'storeUser'])->name('storeUser');
+    Route::get('/edit-user/{id}', [MasterController::class, 'editUser'])->name('editUser');
+    Route::post('/update-user/{id}', [MasterController::class, 'updateUser'])->name('updateUser');
+    Route::get('/delete-user/{id}', [MasterController::class, 'deleteUser'])->name('deleteUser');
+    
     Route::get('/barang', [MasterController::class, 'goods'])->name('barang');
-    Route::get('/supplier', [MasterController::class, 'supplier'])->name('supplier');
-    Route::get('/user', [MasterController::class, 'user'])->name('user');
     Route::get('/barang-masuk', [DashboardController::class, 'index'])->name('barangMasuk');
     Route::get('/barang-keluar', [DashboardController::class, 'index'])->name('barangKeluar');
     Route::get('/laporan-barang-masuk', [DashboardController::class, 'index'])->name('laporanBarangMasuk');

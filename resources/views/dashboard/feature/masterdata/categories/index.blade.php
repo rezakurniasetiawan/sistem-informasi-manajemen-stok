@@ -32,15 +32,25 @@
 
                     <div class="d-flex">
                         <div class="me-3">
-                            <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+                            <form action="{{ route('indexCategory') }}" method="GET">
+                                <input type="text" class="form-control" placeholder="Search..." id="searchInput"
+                                    name="search" value="{{ request('search') }}">
+                            </form>
                         </div>
                         <div>
-                            <select class="form-select" id="entriesDropdown">
-                                <option value="10">Show 10</option>
-                                <option value="25">Show 25</option>
-                                <option value="50">Show 50</option>
-                                <option value="100">Show 100</option>
-                            </select>
+                            <form action="{{ route('indexCategory') }}" method="GET">
+                                <select class="form-select" id="entriesDropdown" name="entries"
+                                    onchange="this.form.submit()">
+                                    <option value="10" {{ request('entries') == 10 ? 'selected' : '' }}>Show 10
+                                    </option>
+                                    <option value="25" {{ request('entries') == 25 ? 'selected' : '' }}>Show 25
+                                    </option>
+                                    <option value="50" {{ request('entries') == 50 ? 'selected' : '' }}>Show 50
+                                    </option>
+                                    <option value="100" {{ request('entries') == 100 ? 'selected' : '' }}>Show 100
+                                    </option>
+                                </select>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -58,8 +68,9 @@
                     <tbody>
                         @foreach ($data as $datas)
                             <tr>
-                                <td scope="row">{{ $loop->iteration }}.</td>
-                                <td> {{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y H:i') }}
+                                <td scope="row">
+                                    {{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}.</td>
+                                <td> {{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y') }}
                                 </td>
                                 <td> {{ $datas->name_mdcategory }} </td>
                                 <td>
@@ -98,6 +109,19 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <p class="text-muted">
+                            Menampilkan {{ $data->firstItem() }} hingga {{ $data->lastItem() }} dari
+                            {{ $data->total() }} data.
+                        </p>
+                    </div>
+                    <div>
+                        {{ $data->onEachSide(1)->links('pagination::bootstrap-4') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

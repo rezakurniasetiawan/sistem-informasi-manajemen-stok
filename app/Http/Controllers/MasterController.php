@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\MdUnit;
 use App\Models\MdCategory;
+use App\Models\MdSupplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class MasterController extends Controller
 {
-    // Kategori
-    public function indexCategory()
+    // ==============================================================================
+    //                      CATEGORY                       
+    // ==============================================================================
+
+    public function indexCategory(Request $request)
     {
-        $data = MdCategory::get();
+        $entries = $request->get('entries', 10);
+        $data = MdCategory::where('name_mdcategory', 'like', '%' . $request->search . '%')->paginate($entries);
         $totalData = MdCategory::count();
         return view('dashboard.feature.masterdata.categories.index', compact('data', 'totalData'));
     }
@@ -57,16 +65,18 @@ class MasterController extends Controller
         return redirect()->route('indexCategory')->with('success', 'Data berhasil dihapus');
     }
 
+    // ==============================================================================
+    //                       UNIT                       
+    // ==============================================================================
 
-
-
-
-    public function indexUnit()
+    public function indexUnit(Request $request)
     {
-        $data = MdUnit::get();
+        $entries = $request->get('entries', 10);
+        $data = MdUnit::where('name_mdunit', 'like', '%' . $request->search . '%')->paginate($entries);
         $totalData = MdUnit::count();
         return view('dashboard.feature.masterdata.units.index', compact('data', 'totalData'));
     }
+
 
     public function createUnit()
     {
@@ -83,8 +93,112 @@ class MasterController extends Controller
         return redirect()->route('indexUnit')->with('success', 'Data berhasil ditambahkan');
     }
 
+    public function editUnit($id)
+    {
+        $data = MdUnit::where('id_mdunit', $id)->first();
+        return view('dashboard.feature.masterdata.units.update', compact('data'));
+    }
 
+    public function updateUnit(Request $request, $id)
+    {
+        $request->validate([
+            'name_mdunit' => 'required'
+        ]);
 
+        $update = [
+            'name_mdunit' => $request->name_mdunit
+        ];
+
+        MdUnit::where('id_mdunit', '=', $id)->update($update);
+        return redirect()->route('indexUnit')->with('success', 'Data berhasil diubah');
+    }
+
+    public function deleteUnit($id)
+    {
+        MdUnit::where('id_mdunit', $id)->delete();
+        return redirect()->route('indexUnit')->with('success', 'Data berhasil dihapus');
+    }
+
+    // ==============================================================================
+    //                      SUPPLIER                       
+    // ==============================================================================
+
+    public function indexSupplier(Request $request)
+    {
+        $entries = $request->get('entries', 10);
+        $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
+            ->select('md_suppliers.*', 'users.name')
+            ->where('name_mdsupplier', 'like', '%' . $request->search . '%')->paginate($entries);
+        $totalData = MdSupplier::count();
+        return view('dashboard.feature.masterdata.suppliers.index', compact('data', 'totalData'));
+    }
+
+    public function createSupplier()
+    {
+        $code = 'SUP-' . date('YmdHis');
+        return view('dashboard.feature.masterdata.suppliers.add', compact('code'));
+    }
+
+    public function storeSupplier(Request $request)
+    {
+        $idUser = Auth::user()->id;
+        $request->validate([
+            'created_mdsupplier' => 'required',
+            'name_mdsupplier' => 'required',
+            'address_mdsupplier' => 'required',
+            'email_mdsupplier' => 'required',
+            'phone_mdsupplier' => 'required'
+        ]);
+
+        $data = [
+            'created_mdsupplier' => $request->created_mdsupplier,
+            'id_user' => $idUser,
+            'code_mdsupplier' => $request->code_mdsupplier,
+            'name_mdsupplier' => $request->name_mdsupplier,
+            'address_mdsupplier' => $request->address_mdsupplier,
+            'email_mdsupplier' => $request->email_mdsupplier,
+            'phone_mdsupplier' => $request->phone_mdsupplier
+        ];
+
+        MdSupplier::create($data);
+        return redirect()->route('indexSupplier')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function editSupplier($id)
+    {
+        $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
+            ->select('md_suppliers.*', 'users.name')
+            ->where('id_mdsupplier', $id)
+            ->first();
+
+        return view('dashboard.feature.masterdata.suppliers.update', compact('data'));
+    }
+
+    public function updateSupplier(Request $request, $id)
+    {
+        $request->validate([
+            'name_mdsupplier' => 'required',
+            'address_mdsupplier' => 'required',
+            'email_mdsupplier' => 'required',
+            'phone_mdsupplier' => 'required'
+        ]);
+
+        $update = [
+            'name_mdsupplier' => $request->name_mdsupplier,
+            'address_mdsupplier' => $request->address_mdsupplier,
+            'email_mdsupplier' => $request->email_mdsupplier,
+            'phone_mdsupplier' => $request->phone_mdsupplier
+        ];
+
+        MdSupplier::where('id_mdsupplier', '=', $id)->update($update);
+        return redirect()->route('indexSupplier')->with('success', 'Data berhasil diubah');
+    }
+
+    public function deleteSupplier($id)
+    {
+        MdSupplier::where('id_mdsupplier', $id)->delete();
+        return redirect()->route('indexSupplier')->with('success', 'Data berhasil dihapus');
+    }
 
 
 
@@ -93,13 +207,54 @@ class MasterController extends Controller
         return view('dashboard.feature.masterdata.goods.index');
     }
 
-    public function supplier()
+
+    // ==============================================================================
+    //                        USER                       
+    // ==============================================================================
+
+    public function indexUser(Request $request)
     {
-        return view('dashboard.feature.masterdata.suppliers.index');
+        $entries = $request->get('entries', 10);
+        $data = User::where('name', 'like', '%' . $request->search . '%')->paginate($entries);
+        $totalData = User::count();
+        return view('dashboard.feature.masterdata.users.index', compact('data', 'totalData'));
     }
 
-    public function user()
+    public function createUser()
     {
-        return view('dashboard.feature.masterdata.users.index');
+        return view('dashboard.feature.masterdata.users.add');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'role' => $request->role
+        ];
+
+        User::create($data);
+        return redirect()->route('indexUser')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function editUser($id)
+    {
+        $data = User::where('id', $id)->first();
+        return view('dashboard.feature.masterdata.users.update', compact('data'));
+    }
+
+    
+    public function deleteUser($id)
+    {
+        User::where('id', $id)->delete();
+        return redirect()->route('indexUser')->with('success', 'Data berhasil dihapus');
     }
 }
