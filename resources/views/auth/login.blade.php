@@ -34,7 +34,7 @@
 
                         <!-- Message for mobile access -->
                         <div class="mobile-warning">
-                            Sementata ini, Akses hanya bisa di browser laptop.
+                            Sementata ini, <br> Akses hanya bisa di browser laptop.
                         </div>
 
                         <!-- Sign in form -->
