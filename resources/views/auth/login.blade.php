@@ -12,6 +12,17 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Styling for mobile access message */
+        .mobile-warning {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,20 +32,17 @@
                 <div class="col-sm-10 col-md-6 col-lg-6 mx-auto d-table h-100">
                     <div class="d-table-cell align-middle">
 
+                        <!-- Message for mobile access -->
+                        <div class="mobile-warning">
+                            Akses hanya bisa di browser laptop.
+                        </div>
 
-                        <div class="card">
+                        <!-- Sign in form -->
+                        <div class="card login-form">
                             <div class="card-body">
                                 <div class="m-sm-4">
-                                    {{-- <div class="text-center">
-                                        <img src="img/avatars/avatar.jpg" alt="Charles Hall"
-                                            class="img-fluid rounded-circle" width="132" height="132" />
-                                    </div> --}}
-
                                     <div class="text-center mt-4">
                                         <h1 class="h2">Welcome back Admin</h1>
-                                        {{-- <p class="lead">
-                                            Sign in to your account to continue
-                                        </p> --}}
                                     </div>
                                     @if (session('error'))
                                         <div class="alert alert-danger">
@@ -66,6 +74,19 @@
             </div>
         </div>
     </main>
+
+    <script>
+        // Function to check if the device is mobile
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        }
+
+        // Hide the login form and show warning message for mobile devices
+        if (isMobileDevice()) {
+            document.querySelector('.login-form').style.display = 'none';
+            document.querySelector('.mobile-warning').style.display = 'block';
+        }
+    </script>
 
     <script src="{{ asset('js/app.js') }}"></script>
 
