@@ -26,12 +26,14 @@
                     <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Satuan</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('barang') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('barang') }}">
+            <li
+                class="sidebar-item {{ request()->routeIs(['indexGoods', 'createGoods', 'editGoods']) ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexGoods') }}">
                     <i class="align-middle" data-feather="package"></i> <span class="align-middle">Barang</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs(['indexSupplier', 'createSupplier', 'editSupplier']) ? 'active' : '' }}">
+            <li
+                class="sidebar-item {{ request()->routeIs(['indexSupplier', 'createSupplier', 'editSupplier']) ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('indexSupplier') }}">
                     <i class="align-middle" data-feather="truck"></i> <span class="align-middle">Supplier</span>
                 </a>

@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/edit-kategori/{id}', [MasterController::class, 'editCategory'])->name('editCategory');
     Route::post('/update-kategori/{id}', [MasterController::class, 'updateCategory'])->name('updateCategory');
     Route::get('/delete-kategori/{id}', [MasterController::class, 'deleteCategory'])->name('deleteCategory');
+    Route::get('/category/pdf', [MasterController::class, 'pdfCategory'])->name('pdfCategory');
 
 
     Route::get('/satuan', [MasterController::class, 'indexUnit'])->name('indexUnit');
@@ -37,7 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/store-satuan', [MasterController::class, 'storeUnit'])->name('storeUnit');
     Route::get('/edit-satuan/{id}', [MasterController::class, 'editUnit'])->name('editUnit');
     Route::post('/update-satuan/{id}', [MasterController::class, 'updateUnit'])->name('updateUnit');
-    Route::get('/delete-satuan/{id}', [MasterController::class, 'deleteUnit'])->name('deleteUnit'); 
+    Route::get('/delete-satuan/{id}', [MasterController::class, 'deleteUnit'])->name('deleteUnit');
+    Route::get('/unit/pdf', [MasterController::class, 'pdfUnit'])->name('pdfUnit');
 
 
     Route::get('/supplier', [MasterController::class, 'indexSupplier'])->name('indexSupplier');
@@ -46,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/edit-supplier/{id}', [MasterController::class, 'editSupplier'])->name('editSupplier');
     Route::post('/update-supplier/{id}', [MasterController::class, 'updateSupplier'])->name('updateSupplier');
     Route::get('/delete-supplier/{id}', [MasterController::class, 'deleteSupplier'])->name('deleteSupplier');
+    Route::get('/supplier/pdf', [MasterController::class, 'pdfSupplier'])->name('pdfSupplier');
+
 
     Route::get('/user', [MasterController::class, 'indexUser'])->name('indexUser');
     Route::get('/add-user', [MasterController::class, 'createUser'])->name('createUser');
@@ -53,8 +57,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/edit-user/{id}', [MasterController::class, 'editUser'])->name('editUser');
     Route::post('/update-user/{id}', [MasterController::class, 'updateUser'])->name('updateUser');
     Route::get('/delete-user/{id}', [MasterController::class, 'deleteUser'])->name('deleteUser');
-    
-    Route::get('/barang', [MasterController::class, 'goods'])->name('barang');
+    Route::get('/user/pdf', [MasterController::class, 'pdfUser'])->name('pdfUser');
+
+    Route::get('/barang', [MasterController::class, 'indexGoods'])->name('indexGoods');
+    Route::get('/add-barang', [MasterController::class, 'createGoods'])->name('createGoods');
+    Route::post('/store-barang', [MasterController::class, 'storeGoods'])->name('storeGoods');
+    Route::get('/edit-barang/{id}', [MasterController::class, 'editGoods'])->name('editGoods');
+    Route::post('/update-barang/{id}', [MasterController::class, 'updateGoods'])->name('updateGoods');
+    Route::get('/delete-barang/{id}', [MasterController::class, 'deleteGoods'])->name('deleteGoods');
+    Route::get('/goods/pdf', [MasterController::class, 'pdfGoods'])->name('pdfGoods');
+
+
     Route::get('/barang-masuk', [DashboardController::class, 'index'])->name('barangMasuk');
     Route::get('/barang-keluar', [DashboardController::class, 'index'])->name('barangKeluar');
     Route::get('/laporan-barang-masuk', [DashboardController::class, 'index'])->name('laporanBarangMasuk');

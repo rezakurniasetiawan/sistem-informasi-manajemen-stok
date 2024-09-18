@@ -21,7 +21,7 @@
                             <i class="align-middle" data-feather="plus"></i> Tambah Baru
                         </a>
 
-                        <a href="" class="btn btn-danger me-2">
+                        <a href="{{ route('pdfUser') }}" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
                         </a>
 
@@ -77,10 +77,11 @@
                                 <td> {{ $datas->username }} </td>
                                 <td> {{ $datas->role }} </td>
                                 <td>
-                                    {{-- <a href="{{ route('editUnit', $datas->id_mdunit) }}" type="button"
-                                        class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>
-                                        Edit</a> --}}
+
                                     @if ($datas->role == 'admin')
+                                        <a href="{{ route('editUser', $datas->id) }}" type="button"
+                                            class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>
+                                            Edit</a>
                                         <a href="{{ route('deleteUser', $datas->id) }}" type="button"
                                             class="btn btn-danger" id="deleteuserButton-{{ $datas->id }}">
                                             <i class="align-middle" data-feather="trash"></i> Hapus

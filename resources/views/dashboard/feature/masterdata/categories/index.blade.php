@@ -21,7 +21,7 @@
                             <i class="align-middle" data-feather="plus"></i> Tambah Baru
                         </a>
 
-                        <a href="" class="btn btn-danger me-2">
+                        <a href = "{{ route('pdfCategory') }}" type="button" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
                         </a>
 
