@@ -1,8 +1,13 @@
 @include('dashboard.components.head')
 
 <div class="container-fluid p-0">
-
-    <h1 class="h3 mb-3"><strong>Data Master</strong> - Edit Supplier</h1>
+    <div class="d-flex align-items-center mb-3">
+        <!-- Tombol Back -->
+        <a href="{{ url()->previous() }}" class="btn btn-secondary me-3">
+            &larr; Back
+        </a>
+        <h1 class="h3 mb-3"><strong>Data Master</strong> - Edit Supplier</h1>
+    </div>
     <div class="row">
         <div class="col-12 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">

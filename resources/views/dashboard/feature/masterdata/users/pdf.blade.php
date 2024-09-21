@@ -121,7 +121,8 @@
 
         <div class="signature">
             <p>TTD Admin</p>
-            <div class="line"></div>
+            <p>_________________</p>
+            {{-- <div class="line"></div> --}}
         </div>
     </div>
 

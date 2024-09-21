@@ -65,19 +65,19 @@
 
         .footer .signature {
             margin-top: 50px;
-            text-align: right;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
+        }
+
+        .footer .signature p {
+            margin: 0;
+            margin-right: 20px;
         }
 
         .footer .signature .line {
             width: 200px;
             border-top: 1px solid black;
-        }
-
-        .footer .signature p {
-            margin-right: 60px;
-            margin-bottom: 0;
         }
     </style>
 </head>
@@ -103,8 +103,7 @@
             @foreach ($data as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td> {{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y') }}
-                    </td>
+                    <td> {{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F Y') }}</td>
                     <td>{{ $item->name_mdcategory }}</td>
                 </tr>
             @endforeach
@@ -117,7 +116,8 @@
 
         <div class="signature">
             <p>TTD Admin</p>
-            <div class="line"></div>
+            <p>_________________</p>
+            {{-- <div class="line"></div> --}}
         </div>
     </div>
 

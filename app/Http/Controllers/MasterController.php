@@ -7,8 +7,9 @@ use App\Models\MdUnit;
 use App\Models\MdGoods;
 use App\Models\MdCategory;
 use App\Models\MdSupplier;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
@@ -178,7 +179,24 @@ class MasterController extends Controller
 
     public function createSupplier()
     {
-        $code = 'SUP-' . date('YmdHis');
+        $lastSupplier = MdSupplier::orderBy('code_mdsupplier', 'desc')->first();
+
+        if ($lastSupplier) {
+            // Ambil kode terakhir, misalnya SUP-00005
+            $lastCode = $lastSupplier->code_mdsupplier;
+
+            // Pisahkan prefix "SUP-" dan angka
+            $lastNumber = intval(substr($lastCode, 4));
+
+            // Tambahkan 1 ke nomor terakhir
+            $newNumber = $lastNumber + 1;
+
+            // Format dengan leading zero, contoh: 00006
+            $code = 'SUP-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        } else {
+            // Jika tidak ada data, mulai dari SUP-00001
+            $code = 'SUP-00001';
+        }
         return view('dashboard.feature.masterdata.suppliers.add', compact('code'));
     }
 
@@ -282,7 +300,25 @@ class MasterController extends Controller
 
     public function createGoods()
     {
-        $code = 'BRG-' . date('YmdHis');
+        $lastGoods = MdGoods::orderBy('code_mdgoods', 'desc')->first();
+
+        if ($lastGoods) {
+            // Ambil kode terakhir
+            $lastCode = $lastGoods->code_mdgoods;
+
+            // Pisahkan prefix "BRG-" dan angka
+            $lastNumber = intval(substr($lastCode, 4));
+
+            // Tambahkan 1 ke nomor terakhir
+            $newNumber = $lastNumber + 1;
+
+            // Format dengan leading zero, contoh: 00006
+            $code = 'BRG-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        } else {
+            // Jika tidak ada data, mulai dari BRG-00001
+            $code = 'BRG-00001';
+        }
+
         $categories  = MdCategory::all();
         $units = MdUnit::all();
         $suppliers = MdSupplier::all();
@@ -305,6 +341,8 @@ class MasterController extends Controller
             'stock_mdgoods' => 'required'
         ]);
 
+        // dd($request->purchase_price_mdgoods);
+
         $data = [
             'created_mdgoods' => $request->created_mdgoods,
             'id_user' => Auth::user()->id,
@@ -312,8 +350,8 @@ class MasterController extends Controller
             'name_mdgoods' => $request->name_mdgoods,
             'idcategory_mdgoods' => $request->idcategory_mdgoods,
             'idunit_mdgoods' => $request->idunit_mdgoods,
-            'purchase_price_mdgoods' => $request->purchase_price_mdgoods,
-            'selling_price_mdgoods' => $request->selling_price_mdgoods,
+            'purchase_price_mdgoods' => (int) preg_replace('/[^0-9]/', '', $request->purchase_price_mdgoods),
+            'selling_price_mdgoods' => (int) preg_replace('/[^0-9]/', '', $request->selling_price_mdgoods),
             'idsupplier_mdgoods' => $request->idsupplier_mdgoods,
             'code_supplier_mdgoods' => $request->code_supplier_mdgoods,
             'stock_mdgoods' => $request->stock_mdgoods
@@ -358,6 +396,7 @@ class MasterController extends Controller
             'purchase_price_mdgoods' => $request->purchase_price_mdgoods,
             'selling_price_mdgoods' => $request->selling_price_mdgoods,
             'idsupplier_mdgoods' => $request->idsupplier_mdgoods,
+            'code_supplier_mdgoods' => $request->code_supplier_mdgoods,
             'stock_mdgoods' => $request->stock_mdgoods
         ];
 
@@ -430,17 +469,27 @@ class MasterController extends Controller
 
     public function updateUser(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
-            'name' => 'required',
-            'username' => 'required',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id, // Username harus unik kecuali user saat ini
         ]);
 
+        // Persiapkan data untuk update
         $update = [
             'name' => $request->name,
             'username' => $request->username,
         ];
 
-        User::where('id', '=', $id)->update($update);
+        // Jika password diisi, hash password baru dan tambahkan ke data update
+        if ($request->filled('password')) {
+            $update['password'] = bcrypt($request->password);
+        }
+
+        // Update data pengguna
+        User::where('id', $id)->update($update);
+
+        // Redirect ke halaman index user dengan pesan sukses
         return redirect()->route('indexUser')->with('success', 'Data berhasil diubah');
     }
 

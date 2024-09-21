@@ -17,9 +17,11 @@
                         <label for="name" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username">
                     </div>
-                    <div class="mb-2">
-                        <label for="name" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                    <label for="name" class="form-label">Password</label>
+                    <div class="mb-2 password-wrapper">
+                        <input class="form-control form-control-lg" id="password" type="password" name="password"
+                            placeholder="Enter your password" />
+                        <i class="toggle-password" data-feather="eye" onclick="togglePasswordVisibility()"></i>
                     </div>
                     <div class="mb-4">
                         <label for="name" class="form-label">Role</label>

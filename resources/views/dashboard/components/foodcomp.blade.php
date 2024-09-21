@@ -8,6 +8,24 @@
 <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // Function to toggle password visibility and icon change
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById('password');
+        var passwordType = passwordInput.getAttribute('type');
+        var icon = document.querySelector('.toggle-password');
+
+        if (passwordType === 'password') {
+            passwordInput.setAttribute('type', 'text');
+            icon.setAttribute('data-feather', 'eye-off'); // Change icon to eye-off
+        } else {
+            passwordInput.setAttribute('type', 'password');
+            icon.setAttribute('data-feather', 'eye'); // Change icon back to eye
+        }
+        feather.replace(); // Re-render icons
+    }
+
+    // Initialize Feather icons
+    feather.replace();
     feather.replace();
 </script>
 

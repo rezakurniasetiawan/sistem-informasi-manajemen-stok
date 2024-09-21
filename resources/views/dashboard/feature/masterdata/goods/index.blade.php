@@ -86,8 +86,8 @@
                                 <td> {{ $datas->name_mdgoods }}</td>
                                 <td> {{ $datas->name_mdcategory }}</td>
                                 <td> {{ $datas->name_mdunit }}</td>
-                                <td> {{ $datas->purchase_price_mdgoods }}</td>
-                                <td> {{ $datas->selling_price_mdgoods }}</td>
+                                <td> Rp. {{ number_format($datas->purchase_price_mdgoods, 0, ',', '.') }}</td>
+                                <td> Rp. {{ number_format($datas->selling_price_mdgoods, 0, ',', '.') }}</td>
                                 <td> {{ $datas->name_mdsupplier }}</td>
                                 <td> {{ $datas->code_supplier_mdgoods }}</td>
                                 <td> {{ $datas->stock_mdgoods }}</td>

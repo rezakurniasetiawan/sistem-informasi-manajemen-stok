@@ -42,6 +42,19 @@
         .pagination .page-item.disabled .page-link {
             background-color: #f8f9fa;
         }
+
+
+        .password-wrapper {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>

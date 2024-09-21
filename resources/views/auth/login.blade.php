@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="{{ asset('img/icons/icon-48x48.png') }}" />
 
-    <title>Sign In</title>
+    <title>Log In</title>
+
+    <!-- Feather Icons -->
+    <link href="https://unpkg.com/feather-icons@4.28.0/dist/feather.css" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -21,6 +24,23 @@
             margin-top: 20px;
             font-size: 1.2em;
             color: red;
+        }
+
+        /* Styling for password wrapper */
+        .password-wrapper {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .form-control-lg {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -56,13 +76,15 @@
                                             <input class="form-control form-control-lg" type="username" name="username"
                                                 placeholder="Enter your username" />
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <input class="form-control form-control-lg" type="password" name="password"
-                                                placeholder="Enter your password" />
+                                        <label class="form-label">Password</label>
+                                        <div class="mb-3 password-wrapper">
+                                            <input class="form-control form-control-lg" id="password" type="password"
+                                                name="password" placeholder="Enter your password" />
+                                            <i class="toggle-password" data-feather="eye"
+                                                onclick="togglePasswordVisibility()"></i>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-lg btn-primary w-100">Sign in</button>
+                                            <button type="submit" class="btn btn-lg btn-primary w-100">Log In</button>
                                         </div>
                                     </form>
                                 </div>
@@ -86,6 +108,25 @@
             document.querySelector('.login-form').style.display = 'none';
             document.querySelector('.mobile-warning').style.display = 'block';
         }
+
+        // Function to toggle password visibility and icon change
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('password');
+            var passwordType = passwordInput.getAttribute('type');
+            var icon = document.querySelector('.toggle-password');
+
+            if (passwordType === 'password') {
+                passwordInput.setAttribute('type', 'text');
+                icon.setAttribute('data-feather', 'eye-off'); // Change icon to eye-off
+            } else {
+                passwordInput.setAttribute('type', 'password');
+                icon.setAttribute('data-feather', 'eye'); // Change icon back to eye
+            }
+            feather.replace(); // Re-render icons
+        }
+
+        // Initialize Feather icons
+        feather.replace();
     </script>
 
     <script src="{{ asset('js/app.js') }}"></script>
