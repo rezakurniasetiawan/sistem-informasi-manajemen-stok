@@ -48,8 +48,8 @@
                 Transaksi
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('barangMasuk') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('barangMasuk') }}">
+            <li class="sidebar-item {{ request()->routeIs(['indexInboundItems','createInboundItems']) ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexInboundItems') }}">
                     <i class="align-middle" data-feather="arrow-down-circle"></i> <span class="align-middle">Barang
                         Masuk</span>
                 </a>

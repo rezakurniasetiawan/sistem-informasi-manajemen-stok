@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InboundItemsController;
 use App\Http\Controllers\MasterController;
 
 /*
@@ -68,7 +69,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/goods/pdf', [MasterController::class, 'pdfGoods'])->name('pdfGoods');
 
 
-    Route::get('/barang-masuk', [DashboardController::class, 'index'])->name('barangMasuk');
+    Route::get('/barang-masuk', [InboundItemsController::class, 'indexInboundItems'])->name('indexInboundItems');
+    Route::get('/barang-masuk/add', [InboundItemsController::class, 'createInboundItems'])->name('createInboundItems');
+
     Route::get('/barang-keluar', [DashboardController::class, 'index'])->name('barangKeluar');
     Route::get('/laporan-barang-masuk', [DashboardController::class, 'index'])->name('laporanBarangMasuk');
     Route::get('/laporan-barang-keluar', [DashboardController::class, 'index'])->name('laporanBarangKeluar');
