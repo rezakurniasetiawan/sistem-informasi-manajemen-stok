@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('outbound_items', function (Blueprint $table) {
             $table->id('id_outbound_items'); // Primary Key
-            $table->date('output_date'); // Tanggal Input
+            $table->datetime('output_date'); // Tanggal Input
             $table->string('user', 100); // User
             $table->string('invoice_code', 50); // Kode Invoice
             $table->string('item_code', 50); // Kode Barang
             $table->string('item_name', 150); // Nama Barang
             $table->string('unit', 50); // Satuan
             $table->decimal('selling_price', 10, 2); // Harga Jual
+            $table->integer('purchase_price'); // Harga Beli
             $table->integer('quantity'); // Jumlah Barang
-            $table->decimal('total_price', 10, 2); // Total Harga
+            $table->integer('total_price'); // Total Harga
             $table->timestamps();
         });
     }

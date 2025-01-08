@@ -48,14 +48,14 @@
                 Transaksi
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs(['indexInboundItems','createInboundItems']) ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->routeIs(['indexInboundItems','createInboundItems','editInboundItems']) ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('indexInboundItems') }}">
                     <i class="align-middle" data-feather="arrow-down-circle"></i> <span class="align-middle">Barang
                         Masuk</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('barangKeluar') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('barangKeluar') }}">
+            <li class="sidebar-item {{ request()->routeIs('indexOutboundItems') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('indexOutboundItems') }}">
                     <i class="align-middle" data-feather="arrow-up-circle"></i> <span class="align-middle">Barang
                         Keluar</span>
                 </a>
@@ -90,11 +90,14 @@
                     <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Setting</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('logout') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('logout') }}">
+            <li class="sidebar-item">
+                {{-- <a class="sidebar-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Logout</span>
                 </a>
-            </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li> --}}
         </ul>
     </div>
 </nav>

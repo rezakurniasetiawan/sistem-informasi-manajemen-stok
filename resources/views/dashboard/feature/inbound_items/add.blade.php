@@ -6,131 +6,110 @@
         <div class="col-12 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
                 {{-- Form to add new Goods --}}
-                <form action="{{ route('storeGoods') }}" method="POST">
+                <form action="{{ route('storeInboundItems') }}" method="POST">
                     <form action="" method="POST">
                         @csrf
+
+                        {{-- Tanggal Input --}}
                         <div class="mb-2">
                             <label for="name" class="form-label">Tanggal Input</label>
-                            <input type="date" class="form-control" id="created_mdgoods" name="created_mdgoods"
+                            <input type="date" class="form-control" id="input_date" name="input_date"
                                 value="{{ date('Y-m-d') }}">
                         </div>
 
+                        {{-- User --}}
                         <div class="mb-2">
                             <label for="name" class="form-label">User</label>
-                            <input type="text" class="form-control" id="id_user" name="id_user"
+                            <input type="text" class="form-control" id="user" name="user"
                                 value="{{ Auth::user()->name }}" readonly>
                         </div>
 
+                        {{-- Kode Invoice --}}
                         <div class="mb-2">
-                            <label for="name" class="form-label">Nama Barang</label>
-                            <input type="text" class="form-control" id="name" name="name_mdgoods">
+                            <label for="name" class="form-label">Kode Invoice</label>
+                            <input type="text" class="form-control" id="invoice_code" name="invoice_code",
+                                value="{{ $code }}" readonly>
                         </div>
 
-                        {{-- <div class="mb-2">
-                            <label for="name" class="form-label">Kategori</label>
-                            <select class="form-select" id="idcategory_mdgoods" name="idcategory_mdgoods">
-                                <option selected>Pilih Kategori</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id_mdcategory }}">{{ $category->name_mdcategory }}
+                        {{-- Kode Barang --}}
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Kode Barang</label>
+                            <select class="form-select" id="item_code" name="item_code">
+                                <option selected>Pilih Kode Barang</option>
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id_mdgoods }}" data-name="{{ $item->name_mdgoods }}"
+                                        data-unit="{{ $item->idunit_mdgoods }}">
+                                        {{ $item->code_mdgoods }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div> --}}
+                        </div>
 
-                        {{-- <div class="mb-2">
+                        {{-- Nama Barang --}}
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Nama Barang</label>
+                            <input type="text" class="form-control" id="item_name" name="item_name" readonly>
+                        </div>
+
+                        {{-- Satuan --}}
+                        <div class="mb-2">
                             <label for="name" class="form-label">Satuan</label>
-                            <select class="form-select" id="idunit_mdgoods" name="idunit_mdgoods">
-                                <option selected>Pilih Satuan</option>
-                                @foreach ($units as $unit)
-                                    <option value="{{ $unit->id_mdunit }}">{{ $unit->name_mdunit }}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
-
-                        <div class="mb-2">
-                            <label for="name" class="form-label">Harga Beli</label>
-                            <input type="text" class="form-control" id="hargabeli" name="purchase_price_mdgoods">
+                            <input type="text" class="form-control" id="unit" name="unit" readonly>
                         </div>
 
+                        <script>
+                            document.getElementById('item_code').addEventListener('change', function() {
+                                const selectedOption = this.options[this.selectedIndex];
+                                const itemName = selectedOption.getAttribute('data-name');
+                                const itemUnit = selectedOption.getAttribute('data-unit');
+                                document.getElementById('item_name').value = itemName ? itemName : '';
+                                document.getElementById('unit').value = itemUnit ? itemUnit : '';
+                            });
+                        </script>
+                        {{-- Kode Supplier --}}
                         <div class="mb-2">
-                            <label for="name" class="form-label">Harga Jual</label>
-                            <input type="text" class="form-control" id="hargajual" name="selling_price_mdgoods">
-                        </div>
-
-                        {{-- <div class="mb-2">
-                            <label for="name" class="form-label">Supplier</label>
-                            <select class="form-select" id="idsupplier_mdgoods" name="idsupplier_mdgoods">
+                            <label for="name" class="form-label">Kode Supplier</label>
+                            <select class="form-select" id="supplier_code" name="supplier_code">
                                 <option selected>Pilih Supplier</option>
                                 @foreach ($suppliers as $supplier)
                                     <option value="{{ $supplier->id_mdsupplier }}"
-                                        data-code="{{ $supplier->code_mdsupplier }}">{{ $supplier->name_mdsupplier }}
+                                        data-name="{{ $supplier->name_mdsupplier }}">
+                                        {{ $supplier->code_mdsupplier }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div> --}}
+                        </div>
 
+                        {{-- Nama Supplier --}}
                         <div class="mb-2">
-                            <label for="name" class="form-label">Kode Supplier</label>
-                            <input type="text" class="form-control" id="code_supplier_mdgoods"
-                                name="code_supplier_mdgoods" readonly>
+                            <label for="name" class="form-label">Nama Supplier</label>
+                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
                         </div>
 
                         <script>
-                            document.getElementById('idsupplier_mdgoods').addEventListener('change', function() {
+                            document.getElementById('supplier_code').addEventListener('change', function() {
                                 const selectedOption = this.options[this.selectedIndex];
-                                const supplierCode = selectedOption.getAttribute('data-code');
-                                document.getElementById('code_supplier_mdgoods').value = supplierCode ? supplierCode : '';
+                                const supplierName = selectedOption.getAttribute('data-name');
+                                document.getElementById('supplier_name').value = supplierName ? supplierName : '';
                             });
                         </script>
 
-                        <script>
-                            var hargabeli = document.getElementById('hargabeli');
-                            hargabeli.addEventListener('keyup', function(e) {
-                                hargabeli.value = formatRupiah(this.value, 'Rp. ');
-                            });
-
-                            function formatRupiah(angka, prefix) {
-                                var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                    split = number_string.split(','),
-                                    sisa = split[0].length % 3,
-                                    rupiah = split[0].substr(0, sisa),
-                                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                                if (ribuan) {
-                                    separator = sisa ? '.' : '';
-                                    rupiah += separator + ribuan.join('.');
-                                }
-
-                                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-                            }
-
-                            var hargajual = document.getElementById('hargajual');
-                            hargajual.addEventListener('keyup', function(e) {
-                                hargajual.value = formatRupiah(this.value, 'Rp. ');
-                            });
-
-                            function formatRupiah(angka, prefix) {
-                                var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                    split = number_string.split(','),
-                                    sisa = split[0].length % 3,
-                                    rupiah = split[0].substr(0, sisa),
-                                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                                if (ribuan) {
-                                    separator = sisa ? '.' : '';
-                                    rupiah += separator + ribuan.join('.');
-                                }
-
-                                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-                            }
-                        </script>
-
-
+                        {{-- Harga Beli --}}
                         <div class="mb-2">
-                            <label for="name" class="form-label">Stok</label>
-                            <input type="text" class="form-control" id="stock_mdgoods" name="stock_mdgoods">
+                            <label for="name" class="form-label">Harga Beli</label>
+                            <input type="text" class="form-control" id="hargabeli" name="purchase_price">
+                        </div>
+
+                        {{-- Jumlah Barang --}}
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Jumlah Barang</label>
+                            <input type="text" class="form-control" id="quantity" name="quantity">
+                        </div>
+
+                        {{-- Total Harga --}}
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Total Harga</label>
+                            <input type="text" class="form-control" id="total_price" name="total_price">
                         </div>
 
 
@@ -140,6 +119,55 @@
             </div>
         </div>
     </div>
+    <script>
+        var hargabeli = document.getElementById('hargabeli');
+        hargabeli.addEventListener('keyup', function(e) {
+            hargabeli.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        // total_price
+        var total_price = document.getElementById('total_price');
+        total_price.addEventListener('keyup', function(e) {
+            total_price.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        var hargajual = document.getElementById('hargajual');
+        hargajual.addEventListener('keyup', function(e) {
+            hargajual.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
 </div>
 
 @include('dashboard.components.foodcomp')

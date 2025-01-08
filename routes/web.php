@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InboundItemsController;
-use App\Http\Controllers\MasterController;
+use App\Http\Controllers\OutboundItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,56 +24,85 @@ Route::post('actionlogin', [AuthController::class, 'actionlogin'])->name('action
 Route::post('actionlogout', [AuthController::class, 'actionlogout'])->name('actionlogout');
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Dashboard Route
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/kategori', [MasterController::class, 'indexCategory'])->name('indexCategory');
-    Route::get('/add-kategori', [MasterController::class, 'createCategory'])->name('createCategory');
-    Route::post('/store-kategori', [MasterController::class, 'storeCategory'])->name('storeCategory');
-    Route::get('/edit-kategori/{id}', [MasterController::class, 'editCategory'])->name('editCategory');
-    Route::post('/update-kategori/{id}', [MasterController::class, 'updateCategory'])->name('updateCategory');
-    Route::get('/delete-kategori/{id}', [MasterController::class, 'deleteCategory'])->name('deleteCategory');
-    Route::get('/category/pdf', [MasterController::class, 'pdfCategory'])->name('pdfCategory');
+    // ============================== Master Route ==============================
+    // Kategori Route
+    Route::prefix('kategori')->group(function () {
+        Route::get('/', [MasterController::class, 'indexCategory'])->name('indexCategory');
+        Route::get('/add', [MasterController::class, 'createCategory'])->name('createCategory');
+        Route::post('/store', [MasterController::class, 'storeCategory'])->name('storeCategory');
+        Route::get('/edit/{id}', [MasterController::class, 'editCategory'])->name('editCategory');
+        Route::post('/update/{id}', [MasterController::class, 'updateCategory'])->name('updateCategory');
+        Route::get('/delete/{id}', [MasterController::class, 'deleteCategory'])->name('deleteCategory');
+        Route::get('/pdf', [MasterController::class, 'pdfCategory'])->name('pdfCategory');
+    });
+    
+    // Satuan Route
+    Route::prefix('satuan')->group(function () {
+        Route::get('/', [MasterController::class, 'indexUnit'])->name('indexUnit');
+        Route::get('/add', [MasterController::class, 'createUnit'])->name('createUnit');
+        Route::post('/store', [MasterController::class, 'storeUnit'])->name('storeUnit');
+        Route::get('/edit/{id}', [MasterController::class, 'editUnit'])->name('editUnit');
+        Route::post('/update/{id}', [MasterController::class, 'updateUnit'])->name('updateUnit');
+        Route::get('/delete/{id}', [MasterController::class, 'deleteUnit'])->name('deleteUnit');
+        Route::get('/pdf', [MasterController::class, 'pdfUnit'])->name('pdfUnit');
+    });
 
+    // Supplier Route
+    Route::prefix('supplier')->group(function () {
+        Route::get('/', [MasterController::class, 'indexSupplier'])->name('indexSupplier');
+        Route::get('/add', [MasterController::class, 'createSupplier'])->name('createSupplier');
+        Route::post('/store', [MasterController::class, 'storeSupplier'])->name('storeSupplier');
+        Route::get('/edit/{id}', [MasterController::class, 'editSupplier'])->name('editSupplier');
+        Route::post('/update/{id}', [MasterController::class, 'updateSupplier'])->name('updateSupplier');
+        Route::get('/delete/{id}', [MasterController::class, 'deleteSupplier'])->name('deleteSupplier');
+        Route::get('/pdf', [MasterController::class, 'pdfSupplier'])->name('pdfSupplier');
+    });
 
-    Route::get('/satuan', [MasterController::class, 'indexUnit'])->name('indexUnit');
-    Route::get('/add-satuan', [MasterController::class, 'createUnit'])->name('createUnit');
-    Route::post('/store-satuan', [MasterController::class, 'storeUnit'])->name('storeUnit');
-    Route::get('/edit-satuan/{id}', [MasterController::class, 'editUnit'])->name('editUnit');
-    Route::post('/update-satuan/{id}', [MasterController::class, 'updateUnit'])->name('updateUnit');
-    Route::get('/delete-satuan/{id}', [MasterController::class, 'deleteUnit'])->name('deleteUnit');
-    Route::get('/unit/pdf', [MasterController::class, 'pdfUnit'])->name('pdfUnit');
+    // User Route
+    Route::prefix('user')->group(function () {
+        Route::get('/', [MasterController::class, 'indexUser'])->name('indexUser');
+        Route::get('/add', [MasterController::class, 'createUser'])->name('createUser');
+        Route::post('/store', [MasterController::class, 'storeUser'])->name('storeUser');
+        Route::get('/edit/{id}', [MasterController::class, 'editUser'])->name('editUser');
+        Route::post('/update/{id}', [MasterController::class, 'updateUser'])->name('updateUser');
+        Route::get('/delete/{id}', [MasterController::class, 'deleteUser'])->name('deleteUser');
+        Route::get('/pdf', [MasterController::class, 'pdfUser'])->name('pdfUser');
+    });
 
+    // Barang Route
+    Route::prefix('barang')->group(function () {
+        Route::get('/', [MasterController::class, 'indexGoods'])->name('indexGoods');
+        Route::get('/add', [MasterController::class, 'createGoods'])->name('createGoods');
+        Route::post('/store', [MasterController::class, 'storeGoods'])->name('storeGoods');
+        Route::get('/edit/{id}', [MasterController::class, 'editGoods'])->name('editGoods');
+        Route::post('/update/{id}', [MasterController::class, 'updateGoods'])->name('updateGoods');
+        Route::get('/delete/{id}', [MasterController::class, 'deleteGoods'])->name('deleteGoods');
+        Route::get('/pdf', [MasterController::class, 'pdfGoods'])->name('pdfGoods');
+    });
 
-    Route::get('/supplier', [MasterController::class, 'indexSupplier'])->name('indexSupplier');
-    Route::get('/add-supplier', [MasterController::class, 'createSupplier'])->name('createSupplier');
-    Route::post('/store-supplier', [MasterController::class, 'storeSupplier'])->name('storeSupplier');
-    Route::get('/edit-supplier/{id}', [MasterController::class, 'editSupplier'])->name('editSupplier');
-    Route::post('/update-supplier/{id}', [MasterController::class, 'updateSupplier'])->name('updateSupplier');
-    Route::get('/delete-supplier/{id}', [MasterController::class, 'deleteSupplier'])->name('deleteSupplier');
-    Route::get('/supplier/pdf', [MasterController::class, 'pdfSupplier'])->name('pdfSupplier');
+    // Barang Masuk Route
+    Route::prefix('barang-masuk')->group(function () {
+        Route::get('/', [InboundItemsController::class, 'indexInboundItems'])->name('indexInboundItems');
+        Route::get('/add', [InboundItemsController::class, 'createInboundItems'])->name('createInboundItems');
+        Route::post('/store', [InboundItemsController::class, 'storeInboundItems'])->name('storeInboundItems');
+        Route::get('/edit/{id}', [InboundItemsController::class, 'editInboundItems'])->name('editInboundItems');
+        Route::post('/update/{id}', [InboundItemsController::class, 'updateInboundItems'])->name('updateInboundItems');
+        Route::get('/delete/{id}', [InboundItemsController::class, 'deleteInboundItems'])->name('deleteInboundItems');
+    });
 
+    Route::prefix('barang-keluar')->group(function () {
+        Route::get('/', [OutboundItemsController::class, 'indexOutboundItems'])->name('indexOutboundItems');
+        // Route::get('/add', [OutboundItemsController::class, 'createOutboundItems'])->name('createOutboundItems');
+        // Route::post('/store', [OutboundItemsController::class, 'storeOutboundItems'])->name('storeOutboundItems');
+        // Route::get('/edit/{id}', [OutboundItemsController::class, 'editOutboundItems'])->name('editOutboundItems');
+        // Route::post('/update/{id}', [OutboundItemsController::class, 'updateOutboundItems'])->name('updateOutboundItems');
+        // Route::get('/delete/{id}', [OutboundItemsController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
+    });
 
-    Route::get('/user', [MasterController::class, 'indexUser'])->name('indexUser');
-    Route::get('/add-user', [MasterController::class, 'createUser'])->name('createUser');
-    Route::post('/store-user', [MasterController::class, 'storeUser'])->name('storeUser');
-    Route::get('/edit-user/{id}', [MasterController::class, 'editUser'])->name('editUser');
-    Route::post('/update-user/{id}', [MasterController::class, 'updateUser'])->name('updateUser');
-    Route::get('/delete-user/{id}', [MasterController::class, 'deleteUser'])->name('deleteUser');
-    Route::get('/user/pdf', [MasterController::class, 'pdfUser'])->name('pdfUser');
-
-    Route::get('/barang', [MasterController::class, 'indexGoods'])->name('indexGoods');
-    Route::get('/add-barang', [MasterController::class, 'createGoods'])->name('createGoods');
-    Route::post('/store-barang', [MasterController::class, 'storeGoods'])->name('storeGoods');
-    Route::get('/edit-barang/{id}', [MasterController::class, 'editGoods'])->name('editGoods');
-    Route::post('/update-barang/{id}', [MasterController::class, 'updateGoods'])->name('updateGoods');
-    Route::get('/delete-barang/{id}', [MasterController::class, 'deleteGoods'])->name('deleteGoods');
-    Route::get('/goods/pdf', [MasterController::class, 'pdfGoods'])->name('pdfGoods');
-
-
-    Route::get('/barang-masuk', [InboundItemsController::class, 'indexInboundItems'])->name('indexInboundItems');
-    Route::get('/barang-masuk/add', [InboundItemsController::class, 'createInboundItems'])->name('createInboundItems');
-
-    Route::get('/barang-keluar', [DashboardController::class, 'index'])->name('barangKeluar');
     Route::get('/laporan-barang-masuk', [DashboardController::class, 'index'])->name('laporanBarangMasuk');
     Route::get('/laporan-barang-keluar', [DashboardController::class, 'index'])->name('laporanBarangKeluar');
     Route::get('/sync-stok-fifo', [DashboardController::class, 'index'])->name('syncStokFifo');

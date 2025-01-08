@@ -11,7 +11,7 @@
             });
         </script>
     @endif
-    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Keluar</h1>
+    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Masuk</h1>
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill p-4">
@@ -84,7 +84,7 @@
                                 <td>{{ $datas->item_name }}</td>
                                 <td>{{ $datas->name_mdunit }}</td>
                                 <td>{{ $datas->code_mdsupplier }}</td>
-                                <td>{{ $datas->supplier_name }}</td>
+                                <td>{{ $datas->supplier_name }}</td>\
                                 <td> Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
                                 <td>{{ $datas->quantity }}</td>
                                 <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>

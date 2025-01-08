@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inbound_items', function (Blueprint $table) {
             $table->id('id_inbound_items'); // Primary Key
-            $table->date('input_date'); // Tanggal Input
+            $table->datetime('input_date'); // Tanggal Input
             $table->string('user', 100); // User
             $table->string('invoice_code', 50); // Kode Invoice
             $table->string('item_code', 50); // Kode Barang
@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('unit', 50); // Satuan
             $table->string('supplier_code', 50); // Kode Supplier
             $table->string('supplier_name', 150); // Nama Supplier
-            $table->decimal('purchase_price', 10, 2); // Harga Beli
+            $table->integer('purchase_price'); // Harga Beli
             $table->integer('quantity'); // Jumlah Barang
-            $table->decimal('total_price', 10, 2); // Total Harga
+            $table->integer('total_price'); // Total Harga
             $table->timestamps();
         });
     }
