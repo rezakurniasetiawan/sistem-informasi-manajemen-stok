@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('purchase_price'); // Harga Beli
             $table->integer('quantity'); // Jumlah Barang
             $table->integer('total_price'); // Total Harga
+            $table->enum('type', ['inbound', 'outbound']);
             $table->timestamps();
         });
     }

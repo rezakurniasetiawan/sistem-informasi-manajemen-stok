@@ -21,7 +21,7 @@
                             <i class="align-middle" data-feather="plus"></i> Tambah Baru
                         </a>
 
-                        <a href="{{ route('pdfGoods') }}" class="btn btn-danger me-2">
+                        <a href="{{ route('pdfInboundItems') }}" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
                         </a>
                         <div class="align-self-center">

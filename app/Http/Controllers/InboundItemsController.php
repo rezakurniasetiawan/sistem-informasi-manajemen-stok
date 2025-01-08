@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\InboundItems;
 use App\Models\MdGoods;
 use App\Models\MdSupplier;
+use App\Models\MdUnits;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InboundItemsController extends Controller
 {
@@ -16,11 +18,13 @@ class InboundItemsController extends Controller
             ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
             ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
             ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+            ->where('type', 'inbound')
             ->where('item_name', 'like', '%' . $request->search . '%')->paginate($entries);
         $totalData = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
             ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
             ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
             ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+            ->where('type', 'inbound')
             ->where('item_name', 'like', '%' . $request->search . '%')->count();
             
         return view('dashboard.feature.inbound_items.index', compact('data', 'totalData'));
@@ -80,6 +84,7 @@ class InboundItemsController extends Controller
             'purchase_price' => (int) preg_replace('/[^0-9]/', '', $request->purchase_price),
             'quantity' => $request->quantity,
             'total_price' => (int) preg_replace('/[^0-9]/', '', $request->total_price),
+            'type' => 'inbound',
         ];
 
         InboundItems::create($data);
@@ -122,6 +127,7 @@ class InboundItemsController extends Controller
             'purchase_price' => (int) preg_replace('/[^0-9]/', '', $request->purchase_price),
             'quantity' => $request->quantity,
             'total_price' => (int) preg_replace('/[^0-9]/', '', $request->total_price),
+            'type' => 'inbound',
         ];
 
         InboundItems::where('id_inbound_items', $id)->update($data);
@@ -133,5 +139,22 @@ class InboundItemsController extends Controller
     {
         InboundItems::where('id_inbound_items', $id)->delete();
         return redirect()->route('indexInboundItems')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function pdfInboundItems(Request $request){
+        $data = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
+            ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
+            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
+            ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+            ->where('type', 'inbound')
+            ->where('item_name', 'like', '%' . $request->search . '%')->get();
+        $totalData = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
+            ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
+            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
+            ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+            ->where('type', 'inbound')
+            ->where('item_name', 'like', '%' . $request->search . '%')->count();
+        $pdf = PDF::loadView('dashboard.feature.inbound_items.pdf', compact('data', 'totalData'));
+        return $pdf->download('inbound_items.pdf');
     }
 }

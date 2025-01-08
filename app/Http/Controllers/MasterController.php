@@ -220,7 +220,6 @@ class MasterController extends Controller
             'email_mdsupplier' => $request->email_mdsupplier,
             'phone_mdsupplier' => $request->phone_mdsupplier
         ];
-
         MdSupplier::create($data);
         return redirect()->route('indexSupplier')->with('success', 'Data berhasil ditambahkan');
     }

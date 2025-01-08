@@ -92,6 +92,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/edit/{id}', [InboundItemsController::class, 'editInboundItems'])->name('editInboundItems');
         Route::post('/update/{id}', [InboundItemsController::class, 'updateInboundItems'])->name('updateInboundItems');
         Route::get('/delete/{id}', [InboundItemsController::class, 'deleteInboundItems'])->name('deleteInboundItems');
+        Route::get('/pdf', [InboundItemsController::class, 'pdfInboundItems'])->name('pdfInboundItems');
     });
 
     Route::prefix('barang-keluar')->group(function () {
