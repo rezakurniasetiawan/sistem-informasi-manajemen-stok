@@ -15,12 +15,33 @@
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill p-4">
+                <div class="d-flex justify-content-center mb-4"
+                    style="width: 20%; margin: 0 auto; border: 1px solid #000; padding: 10px; border-radius: 5px;">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="d-flex justify-content-between w-100">
+                            <h5 class="align-self-start">Pilih Periode</h5>
+                            <div class="align-self-end">
+                                <hr style="border: 1px solid #000; width: 100%;">
+                            </div>
+                        </div>
+                        <form action="{{ route('indexInboundItems') }}" method="GET"
+                            class="d-flex flex-column align-items-center">
+                            <div class="mb-2" style="width: 100%;">
+                                <input type="date" class="form-control" name="start_date" required>
+                            </div>
+                            <div class="mb-4" style="width: 100%;">
+                                <input type="date" class="form-control" name="end_date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Tampilkan</button>
+                        </form>
+                    </div>
+                </div>
                 <div class="d-flex justify-content-between mb-3">
                     <div class="d-flex">
-                        <a href="{{ route('createInboundItems') }}" type="button" class="btn btn-primary me-2">
-                            <i class="align-middle" data-feather="plus"></i> Tambah Baru
-                        </a>
-
+                        <div class="align-self-center"
+                            style="border: 1px solid #000; padding: 5px; border-radius: 5px; margin-right: 15px;">
+                            <span>Data barang masuk : 10 - 15 Januari 2024</span>
+                        </div>
                         <a href="{{ route('pdfInboundItems') }}" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
                         </a>
@@ -68,7 +89,6 @@
                             <th scope="col">Harga Beli</th>
                             <th scope="col">Jumlah Barang</th>
                             <th scope="col">Total Harga</th>
-                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,39 +108,6 @@
                                 <td> Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
                                 <td>{{ $datas->quantity }}</td>
                                 <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
-                                <td>
-                                    <a href="{{ route('editInboundItems', $datas->id_inbound_items) }}" type="button"
-                                        class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>
-                                        Edit</a>
-                                    <a href="{{ route('deleteInboundItems', $datas->id_inbound_items) }}"
-                                        type="button" class="btn btn-danger"
-                                        id="deleteGoodsButton-{{ $datas->id_inbound_items }}">
-                                        <i class="align-middle" data-feather="trash"></i> Hapus
-                                    </a>
-
-                                    <script>
-                                        document.getElementById('deleteGoodsButton-{{ $datas->id_inbound_items }}').addEventListener('click', function(
-                                            event) {
-                                            event.preventDefault(); // Mencegah link langsung dijalankan
-
-                                            Swal.fire({
-                                                title: 'Apakah Anda yakin?',
-                                                text: "Data yang dihapus tidak dapat dikembalikan!",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#d33',
-                                                cancelButtonColor: '#3085d6',
-                                                confirmButtonText: 'Ya, hapus!',
-                                                cancelButtonText: 'Batal'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    window.location.href = "{{ route('deleteInboundItems', $datas->id_inbound_items) }}";
-                                                }
-                                            });
-                                        });
-                                    </script>
-
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>

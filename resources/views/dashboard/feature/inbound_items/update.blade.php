@@ -6,7 +6,7 @@
         <a href="{{ url()->previous() }}" class="btn btn-secondary me-3">
             &larr; Back
         </a>
-        <h1 class="h3"><strong>Transaksi</strong> - Edit Barang Keluar</h1>
+        <h1 class="h3"><strong>Transaksi</strong> - Edit Barang Masuk</h1>
     </div>
     <div class="row">
         <div class="col-6 col-lg-6 col-xxl-6 d-flex">

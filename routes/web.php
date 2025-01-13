@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/delete/{id}', [MasterController::class, 'deleteCategory'])->name('deleteCategory');
         Route::get('/pdf', [MasterController::class, 'pdfCategory'])->name('pdfCategory');
     });
-    
+
     // Satuan Route
     Route::prefix('satuan')->group(function () {
         Route::get('/', [MasterController::class, 'indexUnit'])->name('indexUnit');
@@ -97,15 +97,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('barang-keluar')->group(function () {
         Route::get('/', [OutboundItemsController::class, 'indexOutboundItems'])->name('indexOutboundItems');
-        // Route::get('/add', [OutboundItemsController::class, 'createOutboundItems'])->name('createOutboundItems');
-        // Route::post('/store', [OutboundItemsController::class, 'storeOutboundItems'])->name('storeOutboundItems');
-        // Route::get('/edit/{id}', [OutboundItemsController::class, 'editOutboundItems'])->name('editOutboundItems');
-        // Route::post('/update/{id}', [OutboundItemsController::class, 'updateOutboundItems'])->name('updateOutboundItems');
-        // Route::get('/delete/{id}', [OutboundItemsController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
+        Route::get('/add', [OutboundItemsController::class, 'createOutboundItems'])->name('createOutboundItems');
+        Route::post('/store', [OutboundItemsController::class, 'storeOutboundItems'])->name('storeOutboundItems');
+        Route::get('/edit/{id}', [OutboundItemsController::class, 'editOutboundItems'])->name('editOutboundItems');
+        Route::post('/update/{id}', [OutboundItemsController::class, 'updateOutboundItems'])->name('updateOutboundItems');
+        Route::get('/delete/{id}', [OutboundItemsController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
     });
 
-    Route::get('/laporan-barang-masuk', [DashboardController::class, 'index'])->name('laporanBarangMasuk');
-    Route::get('/laporan-barang-keluar', [DashboardController::class, 'index'])->name('laporanBarangKeluar');
+    Route::get('/laporan-barang-masuk', [InboundItemsController::class, 'reportInboundItems'])->name('reportInboundItems');
+    Route::prefix('laporan-barang-keluar')->group(function () {
+        Route::get('/', [OutboundItemsController::class, 'reportOutboundItems'])->name('reportOutboundItems');
+        Route::get('/pdf', [OutboundItemsController::class, 'pdfOutboundItems'])->name('pdfOutboundItems');
+    });
+
     Route::get('/sync-stok-fifo', [DashboardController::class, 'index'])->name('syncStokFifo');
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

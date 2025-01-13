@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use App\Models\MdUnit;
+use App\Models\MdGoods;
 use App\Models\MdCategory;
 use App\Models\MdSupplier;
 use Illuminate\Database\Seeder;
@@ -141,6 +142,76 @@ class DatabaseSeeder extends Seeder
                 'address_mdsupplier' => $data['address_mdsupplier'],
                 'email_mdsupplier' => $data['email_mdsupplier'],
                 'phone_mdsupplier' => $data['phone_mdsupplier'],
+            ]);
+        }
+
+        // Seeder for MdGoods
+        // "created_mdgoods" => "2025-01-09"
+        // "id_user" => 1
+        // "code_mdgoods" => "BRG-00001"
+        // "name_mdgoods" => "Barang 1"
+        // "idcategory_mdgoods" => "2"
+        // "idunit_mdgoods" => "2"
+        // "purchase_price_mdgoods" => 20000
+        // "selling_price_mdgoods" => 20000
+        // "idsupplier_mdgoods" => "2"
+        // "code_supplier_mdgoods" => "SUP-00002"
+        // "stock_mdgoods" => "100"
+        $goods = [
+            [
+                'created_mdgoods' => '2025-01-09',
+                'id_user' => 1,
+                'code_mdgoods' => 'BRG-00001',
+                'name_mdgoods' => 'Barang 1',
+                'idcategory_mdgoods' => 2,
+                'idunit_mdgoods' => 2,
+                'purchase_price_mdgoods' => 20000,
+                'selling_price_mdgoods' => 20000,
+                'idsupplier_mdgoods' => 2,
+                'code_supplier_mdgoods' => 'SUP-00002',
+                'stock_mdgoods' => 100,
+            ],
+            [
+                'created_mdgoods' => '2025-01-09',
+                'id_user' => 1,
+                'code_mdgoods' => 'BRG-00002',
+                'name_mdgoods' => 'Barang 2',
+                'idcategory_mdgoods' => 3,
+                'idunit_mdgoods' => 3,
+                'purchase_price_mdgoods' => 30000,
+                'selling_price_mdgoods' => 30000,
+                'idsupplier_mdgoods' => 2,
+                'code_supplier_mdgoods' => 'SUP-00002',
+                'stock_mdgoods' => 200,
+            ],
+            [
+                'created_mdgoods' => '2025-01-09',
+                'id_user' => 1,
+                'code_mdgoods' => 'BRG-00003',
+                'name_mdgoods' => 'Barang 3',
+                'idcategory_mdgoods' => 4,
+                'idunit_mdgoods' => 4,
+                'purchase_price_mdgoods' => 40000,
+                'selling_price_mdgoods' => 40000,
+                'idsupplier_mdgoods' => 2,
+                'code_supplier_mdgoods' => 'SUP-00002',
+                'stock_mdgoods' => 300,
+            ]
+        ];
+
+        foreach ($goods as $data) {
+            MdGoods::create([
+                'created_mdgoods' => $data['created_mdgoods'],
+                'id_user' => $data['id_user'],
+                'code_mdgoods' => $data['code_mdgoods'],
+                'name_mdgoods' => $data['name_mdgoods'],
+                'idcategory_mdgoods' => $data['idcategory_mdgoods'],
+                'idunit_mdgoods' => $data['idunit_mdgoods'],
+                'purchase_price_mdgoods' => $data['purchase_price_mdgoods'],
+                'selling_price_mdgoods' => $data['selling_price_mdgoods'],
+                'idsupplier_mdgoods' => $data['idsupplier_mdgoods'],
+                'code_supplier_mdgoods' => $data['code_supplier_mdgoods'],
+                'stock_mdgoods' => $data['stock_mdgoods'],
             ]);
         }
     }

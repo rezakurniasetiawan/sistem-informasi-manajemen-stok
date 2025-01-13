@@ -356,6 +356,8 @@ class MasterController extends Controller
             'stock_mdgoods' => $request->stock_mdgoods
         ];
 
+        dd($data);
+
         MdGoods::create($data);
         return redirect()->route('indexGoods')->with('success', 'Data berhasil ditambahkan');
     }

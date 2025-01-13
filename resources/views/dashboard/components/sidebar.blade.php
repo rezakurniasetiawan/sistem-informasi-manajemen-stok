@@ -65,14 +65,14 @@
                 Laporan
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('laporanBarangMasuk') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('laporanBarangMasuk') }}">
+            <li class="sidebar-item {{ request()->routeIs('reportInboundItems') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('reportInboundItems') }}">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang
                         Masuk</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('laporanBarangKeluar') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('laporanBarangKeluar') }}">
+            <li class="sidebar-item {{ request()->routeIs('reportOutboundItems') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('reportOutboundItems') }}">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Barang
                         Keluar</span>
                 </a>

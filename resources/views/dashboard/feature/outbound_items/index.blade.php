@@ -11,13 +11,13 @@
             });
         </script>
     @endif
-    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Masuk</h1>
+    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Keluar</h1>
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill p-4">
                 <div class="d-flex justify-content-between mb-3">
                     <div class="d-flex">
-                        <a href="{{ route('createInboundItems') }}" type="button" class="btn btn-primary me-2">
+                        <a href="{{ route('createOutboundItems') }}" type="button" class="btn btn-primary me-2">
                             <i class="align-middle" data-feather="plus"></i> Tambah Baru
                         </a>
 
@@ -84,15 +84,15 @@
                                 <td>{{ $datas->item_name }}</td>
                                 <td>{{ $datas->name_mdunit }}</td>
                                 <td>{{ $datas->code_mdsupplier }}</td>
-                                <td>{{ $datas->supplier_name }}</td>\
+                                <td>{{ $datas->supplier_name }}</td>
                                 <td> Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
                                 <td>{{ $datas->quantity }}</td>
                                 <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
                                 <td>
-                                    <a href="{{ route('editInboundItems', $datas->id_inbound_items) }}" type="button"
+                                    <a href="{{ route('editOutboundItems', $datas->id_inbound_items) }}" type="button"
                                         class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>
                                         Edit</a>
-                                    <a href="{{ route('deleteInboundItems', $datas->id_inbound_items) }}"
+                                    <a href="{{ route('deleteOutboundItems', $datas->id_inbound_items) }}"
                                         type="button" class="btn btn-danger"
                                         id="deleteGoodsButton-{{ $datas->id_inbound_items }}">
                                         <i class="align-middle" data-feather="trash"></i> Hapus
@@ -114,7 +114,7 @@
                                                 cancelButtonText: 'Batal'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    window.location.href = "{{ route('deleteInboundItems', $datas->id_inbound_items) }}";
+                                                    window.location.href = "{{ route('deleteOutboundItems', $datas->id_inbound_items) }}";
                                                 }
                                             });
                                         });
