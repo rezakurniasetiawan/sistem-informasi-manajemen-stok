@@ -6,6 +6,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InboundItemsController;
 use App\Http\Controllers\OutboundItemsController;
+use App\Http\Controllers\SyncStockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,13 +105,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/delete/{id}', [OutboundItemsController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
     });
 
-    Route::get('/laporan-barang-masuk', [InboundItemsController::class, 'reportInboundItems'])->name('reportInboundItems');
+    Route::prefix('laporan-barang-masuk')->group(function () {
+        Route::get('/', [InboundItemsController::class, 'reportInboundItems'])->name('reportInboundItems');
+    });
     Route::prefix('laporan-barang-keluar')->group(function () {
         Route::get('/', [OutboundItemsController::class, 'reportOutboundItems'])->name('reportOutboundItems');
         Route::get('/pdf', [OutboundItemsController::class, 'pdfOutboundItems'])->name('pdfOutboundItems');
     });
 
-    Route::get('/sync-stok-fifo', [DashboardController::class, 'index'])->name('syncStokFifo');
+    Route::get('/sync-stok-fifo', [SyncStockController::class, 'syncStock'])->name('syncStock');
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

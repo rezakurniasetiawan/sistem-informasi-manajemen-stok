@@ -24,13 +24,15 @@
                                 <hr style="border: 1px solid #000; width: 100%;">
                             </div>
                         </div>
-                        <form action="{{ route('indexInboundItems') }}" method="GET"
+                        <form action="{{ route('reportOutboundItems') }}" method="GET"
                             class="d-flex flex-column align-items-center">
                             <div class="mb-2" style="width: 100%;">
-                                <input type="date" class="form-control" name="start_date" required>
+                                <input type="date" class="form-control" name="start_date" value="{{ $startDate }}"
+                                    required>
                             </div>
                             <div class="mb-4" style="width: 100%;">
-                                <input type="date" class="form-control" name="end_date" required>
+                                <input type="date" class="form-control" name="end_date" value="{{ $endDate }}"
+                                    required>
                             </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%;">Tampilkan</button>
                         </form>
@@ -40,7 +42,7 @@
                     <div class="d-flex">
                         <div class="align-self-center"
                             style="border: 1px solid #000; padding: 5px; border-radius: 5px; margin-right: 15px;">
-                            <span>Data barang masuk : 10 - 15 Januari 2024</span>
+                            <span>Data barang masuk : {{ $startDate }} - {{ $endDate }}</span>
                         </div>
                         <a href="{{ route('pdfOutboundItems') }}" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
@@ -77,7 +79,7 @@
                 <table class="table table-striped table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col" style="width: 5%;">No</th>
+                            <th scope="col">No</th>
                             <th scope="col">Tanggal Input</th>
                             <th scope="col">User</th>
                             <th scope="col">Kode Invoice</th>
@@ -92,11 +94,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $totalPurchasePrice = 0;
+                            $totalQuantity = 0;
+                            $totalTotalPrice = 0;
+                        @endphp
+                        @if ($data->isEmpty())
+                            <tr>
+                                <td colspan="12" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        @endif
                         @foreach ($data as $datas)
+                            @php
+                                $totalPurchasePrice += $datas->purchase_price;
+                                $totalQuantity += $datas->quantity;
+                                $totalTotalPrice += $datas->total_price;
+                            @endphp
                             <tr>
                                 <td scope="row">
                                     {{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}.</td>
-                                <td> {{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y') }}
+                                <td>{{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y') }}
                                 </td>
                                 <td>{{ $datas->user }}</td>
                                 <td>{{ $datas->invoice_code }}</td>
@@ -105,12 +122,22 @@
                                 <td>{{ $datas->name_mdunit }}</td>
                                 <td>{{ $datas->code_mdsupplier }}</td>
                                 <td>{{ $datas->supplier_name }}</td>
-                                <td> Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
+                                <td>Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
                                 <td>{{ $datas->quantity }}</td>
-                                <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
+                                <td>Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
+                    @if ($data->isNotEmpty())
+                        <tfoot>
+                            <tr class="table-dark">
+                                <th colspan="9" class="text-end">Total</th>
+                                <th>Rp. {{ number_format($totalPurchasePrice, 0, ',', '.') }}</th>
+                                <th>{{ $totalQuantity }}</th>
+                                <th>Rp. {{ number_format($totalTotalPrice, 0, ',', '.') }}</th>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
 
                 {{-- Pagination --}}

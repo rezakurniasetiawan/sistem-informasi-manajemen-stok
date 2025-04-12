@@ -36,7 +36,6 @@ class OutboundItemsController extends Controller
         if ($lastInvoiceCode) {
             // Ambil kode terakhir, misalnya INV-00005
             $lastCode = $lastInvoiceCode->invoice_code;
-
             // Pisahkan prefix "INV-" dan angka
             $lastNumber = intval(substr($lastCode, 4));
 
@@ -147,26 +146,36 @@ class OutboundItemsController extends Controller
             ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
             ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
             ->where('type', 'outbound')->get();
-        $pdf = PDF::loadView('dashboard.feature.reports.outbound_report_pdf', compact('data'));
+        $totalData = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
+            ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
+            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
+            ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+            ->where('type', 'outbound')->count();
+        $pdf = PDF::loadView('dashboard.feature.reports.outbound_report_pdf', compact('data', 'totalData'));
         return $pdf->download('laporan-barang-keluar.pdf');
     }
 
     public function reportOutboundItems(Request $request)
     {
+        $datenow = date('Y-m-d');
+        $startDate = $request->get('start_date', $datenow);
+        $endDate = $request->get('end_date', date('Y-m-d', strtotime($startDate . ' + 7 days')));
         $entries = $request->get('entries', 10);
         $data = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
             ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
             ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
             ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
             ->where('type', 'outbound')
+            ->whereBetween('input_date', [$startDate, $endDate])
             ->where('item_name', 'like', '%' . $request->search . '%')->paginate($entries);
         $totalData = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
             ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
             ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
             ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
             ->where('type', 'outbound')
+            ->whereBetween('input_date', [$startDate, $endDate])
             ->where('item_name', 'like', '%' . $request->search . '%')->count();
 
-        return view('dashboard.feature.reports.outbound_report', compact('data', 'totalData'));
+        return view('dashboard.feature.reports.outbound_report', compact('data', 'totalData' , 'startDate', 'endDate'));
     }
 }

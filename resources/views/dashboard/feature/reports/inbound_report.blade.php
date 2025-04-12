@@ -11,7 +11,7 @@
             });
         </script>
     @endif
-    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Masuk</h1>
+    <h1 class="h3 mb-3"><strong>Transaksi</strong> Barang Masuk.</h1>
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill p-4">
@@ -24,13 +24,15 @@
                                 <hr style="border: 1px solid #000; width: 100%;">
                             </div>
                         </div>
-                        <form action="{{ route('indexInboundItems') }}" method="GET"
+                        <form action="{{ route('reportInboundItems') }}" method="GET"
                             class="d-flex flex-column align-items-center">
                             <div class="mb-2" style="width: 100%;">
-                                <input type="date" class="form-control" name="start_date" required>
+                                <input type="date" class="form-control" name="start_date" value="{{ $startDate }}"
+                                    required>
                             </div>
                             <div class="mb-4" style="width: 100%;">
-                                <input type="date" class="form-control" name="end_date" required>
+                                <input type="date" class="form-control" name="end_date" value="{{ $endDate }}"
+                                    required>
                             </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%;">Tampilkan</button>
                         </form>
@@ -40,7 +42,7 @@
                     <div class="d-flex">
                         <div class="align-self-center"
                             style="border: 1px solid #000; padding: 5px; border-radius: 5px; margin-right: 15px;">
-                            <span>Data barang masuk : 10 - 15 Januari 2024</span>
+                            <span>Data barang masuk : {{ $startDate }} - {{ $endDate }}</span>
                         </div>
                         <a href="{{ route('pdfInboundItems') }}" class="btn btn-danger me-2">
                             <i class="align-middle" data-feather="file"></i> Cetak PDF
@@ -77,27 +79,40 @@
                 <table class="table table-striped table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col" style="width: 5%;">No</th>
-                            <th scope="col">Tanggal Input</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Kode Invoice</th>
-                            <th scope="col">Kode Barang</th>
-                            <th scope="col">Nama Barang</th>
-                            <th scope="col">Satuan</th>
-                            <th scope="col">Kode Supplier</th>
-                            <th scope="col">Nama Supplier</th>
-                            <th scope="col">Harga Beli</th>
-                            <th scope="col">Jumlah Barang</th>
-                            <th scope="col">Total Harga</th>
+                            <th>No</th>
+                            <th>Tanggal Input</th>
+                            <th>User</th>
+                            <th>Kode Invoice</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Satuan</th>
+                            <th>Kode Supplier</th>
+                            <th>Nama Supplier</th>
+                            <th>Harga Beli</th>
+                            <th>Jumlah Barang</th>
+                            <th>Total Harga</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $datas)
+                        @php
+                            $totalHargaBeli = 0;
+                            $totalJumlahBarang = 0;
+                            $totalHargaKeseluruhan = 0;
+                        @endphp
+                        @if ($data->isEmpty())
                             <tr>
-                                <td scope="row">
-                                    {{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}.</td>
-                                <td> {{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y') }}
-                                </td>
+                                <td colspan="12" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        @endif
+                        @foreach ($data as $datas)
+                            @php
+                                $totalHargaBeli += $datas->purchase_price;
+                                $totalJumlahBarang += $datas->quantity;
+                                $totalHargaKeseluruhan += $datas->total_price;
+                            @endphp
+                            <tr>
+                                <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
+                                <td>{{ \Carbon\Carbon::parse($datas->created_at)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $datas->user }}</td>
                                 <td>{{ $datas->invoice_code }}</td>
                                 <td>{{ $datas->code_mdgoods }}</td>
@@ -105,11 +120,19 @@
                                 <td>{{ $datas->name_mdunit }}</td>
                                 <td>{{ $datas->code_mdsupplier }}</td>
                                 <td>{{ $datas->supplier_name }}</td>
-                                <td> Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
+                                <td>Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
                                 <td>{{ $datas->quantity }}</td>
-                                <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
+                                <td>Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
                             </tr>
                         @endforeach
+                        @if ($data->isNotEmpty())
+                            <tr class="table-dark">
+                                <td colspan="9" class="text-end">Total</td>
+                                <td>Rp. {{ number_format($totalHargaBeli, 0, ',', '.') }}</td>
+                                <td>{{ $totalJumlahBarang }}</td>
+                                <td>Rp. {{ number_format($totalHargaKeseluruhan, 0, ',', '.') }}</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
 
