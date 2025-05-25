@@ -1,7 +1,7 @@
 @include('dashboard.components.head')
 <div class="container-fluid p-0">
 
-    <h1 class="h3 mb-3"><strong>Tambah</strong> - Transaksi Barang Keluar</h1>
+    <h1 class="h3 mb-3"><strong>Tambah</strong> - Laporan Barang Keluar</h1>
     <div class="row">
         <div class="col-12 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
@@ -95,7 +95,7 @@
 
                     {{-- Harga Beli --}}
                     <div class="mb-2">
-                        <label for="name" class="form-label">Harga Beli</label>
+                        <label for="name" class="form-label">Harga Jual</label>
                         <input type="text" class="form-control" id="hargabeli" name="purchase_price">
                     </div>
 

@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="{{ route('dashboard') }}">
-            <span class="align-middle">Toko Lia</span>
+            <span class="align-middle">Toko Listrik LIA</span>
         </a>
 
         <ul class="sidebar-nav">
@@ -85,11 +85,6 @@
             </li>
 
             <li class="sidebar-header"></li>
-            <li class="sidebar-item {{ request()->routeIs('setting') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('setting') }}">
-                    <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Setting</span>
-                </a>
-            </li>
             <li class="sidebar-item">
                 {{-- <a class="sidebar-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Logout</span>

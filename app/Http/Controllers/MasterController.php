@@ -23,7 +23,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = MdCategory::where('name_mdcategory', 'like', '%' . $request->search . '%')->paginate($entries);
-        $totalData = MdCategory::count();
+        $totalData = $data->total();
         return view('dashboard.feature.masterdata.categories.index', compact('data', 'totalData'));
     }
 
@@ -31,7 +31,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = MdCategory::where('name_mdcategory', 'like', '%' . $request->search . '%')->get(); // Mengambil semua data
-        $totalData = MdCategory::count();
+        $totalData = $data->total();
 
         // Membuat PDF menggunakan view
         $pdf = PDF::loadView('dashboard.feature.masterdata.categories.pdf', compact('data', 'totalData'));
@@ -57,7 +57,7 @@ class MasterController extends Controller
 
     public function editCategory($id)
     {
-        $data = MdCategory::where('id_mdcategory', $id)->first();
+        $data = MdCategory::where('id', $id)->first();
         return view('dashboard.feature.masterdata.categories.update', compact('data'));
     }
 
@@ -71,13 +71,13 @@ class MasterController extends Controller
             'name_mdcategory' => $request->name_mdcategory
         ];
 
-        MdCategory::where('id_mdcategory', '=', $id)->update($update);
+        MdCategory::where('id', '=', $id)->update($update);
         return redirect()->route('indexCategory')->with('success', 'Data berhasil diubah');
     }
 
     public function deleteCategory($id)
     {
-        MdCategory::where('id_mdcategory', $id)->delete();
+        MdCategory::where('id', $id)->delete();
         return redirect()->route('indexCategory')->with('success', 'Data berhasil dihapus');
     }
 
@@ -89,7 +89,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = MdUnit::where('name_mdunit', 'like', '%' . $request->search . '%')->paginate($entries);
-        $totalData = MdUnit::count();
+        $totalData = $data->total();
         return view('dashboard.feature.masterdata.units.index', compact('data', 'totalData'));
     }
 
@@ -97,7 +97,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = MdUnit::where('name_mdunit', 'like', '%' . $request->search . '%')->get(); // Mengambil semua data
-        $totalData = MdUnit::count();
+        $totalData = $data->total();
 
         // Membuat PDF menggunakan view
         $pdf = PDF::loadView('dashboard.feature.masterdata.units.pdf', compact('data', 'totalData'));
@@ -124,7 +124,7 @@ class MasterController extends Controller
 
     public function editUnit($id)
     {
-        $data = MdUnit::where('id_mdunit', $id)->first();
+        $data = MdUnit::where('id', $id)->first();
         return view('dashboard.feature.masterdata.units.update', compact('data'));
     }
 
@@ -138,13 +138,13 @@ class MasterController extends Controller
             'name_mdunit' => $request->name_mdunit
         ];
 
-        MdUnit::where('id_mdunit', '=', $id)->update($update);
+        MdUnit::where('id', '=', $id)->update($update);
         return redirect()->route('indexUnit')->with('success', 'Data berhasil diubah');
     }
 
     public function deleteUnit($id)
     {
-        MdUnit::where('id_mdunit', $id)->delete();
+        MdUnit::where('id', $id)->delete();
         return redirect()->route('indexUnit')->with('success', 'Data berhasil dihapus');
     }
 
@@ -158,7 +158,7 @@ class MasterController extends Controller
         $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
             ->select('md_suppliers.*', 'users.name')
             ->where('name_mdsupplier', 'like', '%' . $request->search . '%')->paginate($entries);
-        $totalData = MdSupplier::count();
+        $totalData = $data->total();
         return view('dashboard.feature.masterdata.suppliers.index', compact('data', 'totalData'));
     }
 
@@ -168,7 +168,7 @@ class MasterController extends Controller
         $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
             ->select('md_suppliers.*', 'users.name')
             ->where('name_mdsupplier', 'like', '%' . $request->search . '%')->get(); // Mengambil semua data
-        $totalData = MdSupplier::count();
+        $totalData = $data->total();
 
         // Membuat PDF menggunakan view
         $pdf = PDF::loadView('dashboard.feature.masterdata.suppliers.pdf', compact('data', 'totalData'));
@@ -227,9 +227,10 @@ class MasterController extends Controller
     public function editSupplier($id)
     {
         $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
-            ->select('md_suppliers.*', 'users.name')
-            ->where('id_mdsupplier', $id)
-            ->first();
+        ->select('md_suppliers.*', 'users.name')
+        ->where('md_suppliers.id', $id)
+        ->first();
+
 
         return view('dashboard.feature.masterdata.suppliers.update', compact('data'));
     }
@@ -250,13 +251,13 @@ class MasterController extends Controller
             'phone_mdsupplier' => $request->phone_mdsupplier
         ];
 
-        MdSupplier::where('id_mdsupplier', '=', $id)->update($update);
+        MdSupplier::where('id', '=', $id)->update($update);
         return redirect()->route('indexSupplier')->with('success', 'Data berhasil diubah');
     }
 
     public function deleteSupplier($id)
     {
-        MdSupplier::where('id_mdsupplier', $id)->delete();
+        MdSupplier::where('id', $id)->delete();
         return redirect()->route('indexSupplier')->with('success', 'Data berhasil dihapus');
     }
 
@@ -267,28 +268,27 @@ class MasterController extends Controller
     public function indexGoods(Request $request)
     {
         $entries = $request->get('entries', 10);
-        $data = MdGoods::join('md_categories', 'md_categories.id_mdcategory', '=', 'md_goods.idcategory_mdgoods')
-            ->join('md_units', 'md_units.id_mdunit', '=', 'md_goods.idunit_mdgoods')
-            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'md_goods.idsupplier_mdgoods')
+        $data = MdGoods::join('md_categories', 'md_categories.id', '=', 'md_goods.idcategory_mdgoods')
+            ->join('md_units', 'md_units.id', '=', 'md_goods.idunit_mdgoods')
+            ->join('md_suppliers', 'md_suppliers.id', '=', 'md_goods.idsupplier_mdgoods')
             ->join('users', 'users.id', '=', 'md_goods.id_user')
             ->select('md_goods.*', 'md_categories.name_mdcategory', 'md_units.name_mdunit', 'md_suppliers.name_mdsupplier', 'users.name')
             ->where('name_mdgoods', 'like', '%' . $request->search . '%')->paginate($entries);
 
-        // dd($data);
-        $totalData = MdGoods::count();
+        $totalData = $data->total();
         return view('dashboard.feature.masterdata.goods.index', compact('data', 'totalData'));
     }
 
     public function pdfGoods(Request $request)
     {
         $entries = $request->get('entries', 10);
-        $data = MdGoods::join('md_categories', 'md_categories.id_mdcategory', '=', 'md_goods.idcategory_mdgoods')
-            ->join('md_units', 'md_units.id_mdunit', '=', 'md_goods.idunit_mdgoods')
-            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'md_goods.idsupplier_mdgoods')
+        $data = MdGoods::join('md_categories', 'md_categories.id', '=', 'md_goods.idcategory_mdgoods')
+            ->join('md_units', 'md_units.id', '=', 'md_goods.idunit_mdgoods')
+            ->join('md_suppliers', 'md_suppliers.id', '=', 'md_goods.idsupplier_mdgoods')
             ->join('users', 'users.id', '=', 'md_goods.id_user')
             ->select('md_goods.*', 'md_categories.name_mdcategory', 'md_units.name_mdunit', 'md_suppliers.name_mdsupplier', 'users.name')
             ->where('name_mdgoods', 'like', '%' . $request->search . '%')->get(); // Mengambil semua data
-        $totalData = MdGoods::count();
+        $totalData = $data->total();
 
         // Membuat PDF menggunakan view
         $pdf = PDF::loadView('dashboard.feature.masterdata.goods.pdf', compact('data', 'totalData'));
@@ -364,13 +364,20 @@ class MasterController extends Controller
 
     public function editGoods($id)
     {
-        $data = MdGoods::join('md_categories', 'md_categories.id_mdcategory', '=', 'md_goods.idcategory_mdgoods')
-            ->join('md_units', 'md_units.id_mdunit', '=', 'md_goods.idunit_mdgoods')
-            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'md_goods.idsupplier_mdgoods')
+        $data = MdGoods::join('md_categories', 'md_categories.id', '=', 'md_goods.idcategory_mdgoods')
+            ->join('md_units', 'md_units.id', '=', 'md_goods.idunit_mdgoods')
+            ->join('md_suppliers', 'md_suppliers.id', '=', 'md_goods.idsupplier_mdgoods')
             ->join('users', 'users.id', '=', 'md_goods.id_user')
-            ->select('md_goods.*', 'md_categories.name_mdcategory', 'md_units.name_mdunit', 'md_suppliers.name_mdsupplier', 'users.name')
-            ->where('id_mdgoods', $id)
+            ->select(
+                'md_goods.*',
+                'md_categories.name_mdcategory',
+                'md_units.name_mdunit',
+                'md_suppliers.name_mdsupplier',
+                'users.name'
+            )
+            ->where('md_goods.id', $id)
             ->first();
+
 
         $categories  = MdCategory::all();
         $units = MdUnit::all();
@@ -401,13 +408,13 @@ class MasterController extends Controller
             'stock_mdgoods' => $request->stock_mdgoods
         ];
 
-        MdGoods::where('id_mdgoods', '=', $id)->update($update);
+        MdGoods::where('id', '=', $id)->update($update);
         return redirect()->route('indexGoods')->with('success', 'Data berhasil diubah');
     }
 
     public function deleteGoods($id)
     {
-        MdGoods::where('id_mdgoods', $id)->delete();
+        MdGoods::where('id', $id)->delete();
         return redirect()->route('indexGoods')->with('success', 'Data berhasil dihapus');
     }
 
@@ -420,7 +427,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = User::where('name', 'like', '%' . $request->search . '%')->paginate($entries);
-        $totalData = User::count();
+        $totalData = $data->total();
         return view('dashboard.feature.masterdata.users.index', compact('data', 'totalData'));
     }
 
@@ -428,7 +435,7 @@ class MasterController extends Controller
     {
         $entries = $request->get('entries', 10);
         $data = User::where('name', 'like', '%' . $request->search . '%')->get(); // Mengambil semua data
-        $totalData = User::count();
+        $totalData = $data->total();
 
         // Membuat PDF menggunakan view
         $pdf = PDF::loadView('dashboard.feature.masterdata.users.pdf', compact('data', 'totalData'));

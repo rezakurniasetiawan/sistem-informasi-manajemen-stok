@@ -85,7 +85,7 @@
 <body>
 
     <div class="header">
-        <img src="{{ public_path('path/to/logo.png') }}" alt="LOGO TOKO LIA">
+        <img src="{{ public_path('path/to/logo.png') }}" alt="LOGO Toko Listrik LIA">
         <h1>TOKO LISTRIK LIA</h1>
         <p>Jalan Bungurasih Utara I / 1B RT 5 RW 4, Waru - Sidoarjo 61256</p>
         <hr>
