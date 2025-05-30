@@ -56,6 +56,46 @@
             cursor: pointer;
         }
     </style>
+    <style>
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table.styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 1000px;
+        }
+
+        .styled-table thead tr {
+            background-color: #222E3C;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .styled-table td:first-child,
+        .styled-table td:nth-child(2),
+        .styled-table th:first-child,
+        .styled-table th:nth-child(2) {
+            text-align: center;
+        }
+
+        .styled-table tfoot tr {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+    </style>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 

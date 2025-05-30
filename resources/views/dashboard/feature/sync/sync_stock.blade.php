@@ -225,107 +225,104 @@
                     @endif
                 </table> --}}
 
-                <table border="1" cellpadding="8" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th rowspan="2">Tanggal</th>
-                            <th rowspan="2">Kode Transaksi</th>
-                            <th colspan="3">Masuk</th>
-                            <th colspan="3">Keluar</th>
-                            <th colspan="3">Persediaan</th>
-                        </tr>
-                        <tr>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total Harga</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total Harga</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total Harga</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $saldoQty = 0;
-                            $saldoHarga = 0;
-                            $saldoTotal = 0;
-
-                            $totalInQty = 0;
-                            $totalInHarga = 0;
-                            $totalOutQty = 0;
-                            $totalOutHarga = 0;
-                        @endphp
-
-                        @foreach ($stocks as $stock)
-                            @php
-                                $inQty = $stock->type == 'inbound' ? $stock->quantity : null;
-                                $inHarga = $stock->type == 'inbound' ? $stock->purchase_price : null;
-                                $inTotal = $stock->type == 'inbound' ? $stock->quantity * $stock->purchase_price : null;
-
-                                $outQty = $stock->type == 'outbound' ? $stock->quantity_out : null;
-                                $outHarga = $stock->type == 'outbound' ? $stock->purchase_price : null;
-                                $outTotal =
-                                    $stock->type == 'outbound' ? $stock->quantity_out * $stock->purchase_price : null;
-
-                                // Update saldo
-                                if ($inQty) {
-                                    $saldoQty += $inQty;
-                                    $saldoHarga = $inHarga;
-                                    $saldoTotal += $inTotal;
-
-                                    $totalInQty += $inQty;
-                                    $totalInHarga += $inTotal;
-                                }
-
-                                if ($outQty) {
-                                    $saldoQty -= $outQty;
-                                    $saldoTotal -= $outTotal;
-
-                                    $totalOutQty += $outQty;
-                                    $totalOutHarga += $outTotal;
-                                }
-                            @endphp
+                <div class="table-responsive">
+                    <table class="styled-table">
+                        <thead>
                             <tr>
-                                <td>{{ $stock->input_date }}</td>
-                                <td>{{ $stock->invoice_code }}</td>
-
-                                {{-- MASUK --}}
-                                <td>{{ $inQty ?? '' }}</td>
-                                <td>{{ $inHarga ? 'Rp. ' . number_format($inHarga, 0, ',', '.') : '' }}</td>
-                                <td>{{ $inTotal ? 'Rp. ' . number_format($inTotal, 0, ',', '.') : '' }}</td>
-
-                                {{-- KELUAR --}}
-                                <td>{{ $outQty ?? '' }}</td>
-                                <td>{{ $outHarga ? 'Rp. ' . number_format($outHarga, 0, ',', '.') : '' }}</td>
-                                <td>{{ $outTotal ? 'Rp. ' . number_format($outTotal, 0, ',', '.') : '' }}</td>
-
-                                {{-- PERSEDIAAN --}}
-                                <td>{{ $saldoQty }}</td>
-                                <td>{{ $saldoHarga ? 'Rp. ' . number_format($saldoHarga, 0, ',', '.') : '' }}</td>
-                                <td>{{ $saldoTotal ? 'Rp. ' . number_format($saldoTotal, 0, ',', '.') : '' }}</td>
+                                <th rowspan="2">Tanggal</th>
+                                <th rowspan="2">Kode Transaksi</th>
+                                <th colspan="3">Masuk</th>
+                                <th colspan="3">Keluar</th>
+                                <th colspan="3">Persediaan</th>
                             </tr>
-                        @endforeach
+                            <tr>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $saldoQty = 0;
+                                $saldoHarga = 0;
+                                $saldoTotal = 0;
 
-                        {{-- BARIS TOTAL --}}
-                        <tr>
-                            <th colspan="2">TOTAL</th>
+                                $totalInQty = 0;
+                                $totalInHarga = 0;
+                                $totalOutQty = 0;
+                                $totalOutHarga = 0;
+                            @endphp
 
-                            <th>{{ $totalInQty }}</th>
-                            <th></th>
-                            <th>{{ 'Rp. ' . number_format($totalInHarga, 0, ',', '.') }}</th>
+                            @foreach ($stocks as $stock)
+                                @php
+                                    $inQty = $stock->type == 'inbound' ? $stock->quantity : null;
+                                    $inHarga = $stock->type == 'inbound' ? $stock->purchase_price : null;
+                                    $inTotal = $inQty && $inHarga ? $inQty * $inHarga : null;
 
-                            <th>{{ $totalOutQty }}</th>
-                            <th></th>
-                            <th>{{ 'Rp. ' . number_format($totalOutHarga, 0, ',', '.') }}</th>
+                                    $outQty = $stock->type == 'outbound' ? $stock->quantity_out : null;
+                                    $outHarga = $stock->type == 'outbound' ? $stock->purchase_price : null;
+                                    $outTotal = $outQty && $outHarga ? $outQty * $outHarga : null;
 
-                            <th>{{ $saldoQty }}</th>
-                            <th></th>
-                            <th>{{ 'Rp. ' . number_format($saldoTotal, 0, ',', '.') }}</th>
-                        </tr>
-                    </tbody>
-                </table>
+                                    if ($inQty) {
+                                        $saldoQty += $inQty;
+                                        $saldoHarga = $inHarga;
+                                        $saldoTotal += $inTotal;
+
+                                        $totalInQty += $inQty;
+                                        $totalInHarga += $inTotal;
+                                    }
+
+                                    if ($outQty) {
+                                        $saldoQty -= $outQty;
+                                        $saldoTotal -= $outTotal;
+
+                                        $totalOutQty += $outQty;
+                                        $totalOutHarga += $outTotal;
+                                    }
+                                @endphp
+                                <tr>
+                                    <td>{{ $stock->input_date }}</td>
+                                    <td>{{ $stock->invoice_code }}</td>
+
+                                    {{-- Masuk --}}
+                                    <td>{{ $inQty ?? '-' }}</td>
+                                    <td>{{ $inHarga ? 'Rp ' . number_format($inHarga, 0, ',', '.') : '-' }}</td>
+                                    <td>{{ $inTotal ? 'Rp ' . number_format($inTotal, 0, ',', '.') : '-' }}</td>
+
+                                    {{-- Keluar --}}
+                                    <td>{{ $outQty ?? '-' }}</td>
+                                    <td>{{ $outHarga ? 'Rp ' . number_format($outHarga, 0, ',', '.') : '-' }}</td>
+                                    <td>{{ $outTotal ? 'Rp ' . number_format($outTotal, 0, ',', '.') : '-' }}</td>
+
+                                    {{-- Persediaan --}}
+                                    <td>{{ $saldoQty }}</td>
+                                    <td>{{ $saldoHarga ? 'Rp ' . number_format($saldoHarga, 0, ',', '.') : '-' }}</td>
+                                    <td>{{ $saldoTotal ? 'Rp ' . number_format($saldoTotal, 0, ',', '.') : '-' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">TOTAL</th>
+                                <th>{{ $totalInQty }}</th>
+                                <th></th>
+                                <th>{{ 'Rp ' . number_format($totalInHarga, 0, ',', '.') }}</th>
+                                <th>{{ $totalOutQty }}</th>
+                                <th></th>
+                                <th>{{ 'Rp ' . number_format($totalOutHarga, 0, ',', '.') }}</th>
+                                <th>{{ $saldoQty }}</th>
+                                <th></th>
+                                <th>{{ 'Rp ' . number_format($saldoTotal, 0, ',', '.') }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
 
 
