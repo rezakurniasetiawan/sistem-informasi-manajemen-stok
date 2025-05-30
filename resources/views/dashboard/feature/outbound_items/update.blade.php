@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col-6 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
-                <form action="{{ route('updateOutboundItems', $data->id_inbound_items) }}" method="POST">
+                <form action="{{ route('updateOutboundItems', $data->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $data->id_inbound_items }}">
+                    <input type="hidden" name="id" value="{{ $data->id }}">
                     {{-- Tanggal Input --}}
                     <div class="mb-2">
                         <label for="name" class="form-label">Tanggal Input</label>
@@ -119,8 +119,8 @@
                     {{-- Jumlah Barang --}}
                     <div class="mb-2">
                         <label for="name" class="form-label">Jumlah Barang</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity"
-                            value="{{ $data->quantity }}">
+                        <input type="number" class="form-control" id="quantity" name="quantity" readonly
+                            value="{{ $data->quantity_out }}">
 
                     </div>
 

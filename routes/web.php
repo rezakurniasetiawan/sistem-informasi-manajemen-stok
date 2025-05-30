@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\InboundItemsController;
-use App\Http\Controllers\OutboundItemsController;
 use App\Http\Controllers\SyncStockController;
+use App\Http\Controllers\InboundItemsController;
+use App\Http\Controllers\StockInboundController;
+use App\Http\Controllers\OutboundItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,34 +87,50 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Barang Masuk Route
+    // Route::prefix('barang-masuk')->group(function () {
+    //     Route::get('/', [InboundItemsController::class, 'indexInboundItems'])->name('indexInboundItems');
+    //     Route::get('/add', [InboundItemsController::class, 'createInboundItems'])->name('createInboundItems');
+    //     Route::post('/store', [InboundItemsController::class, 'storeInboundItems'])->name('storeInboundItems');
+    //     Route::get('/edit/{id}', [InboundItemsController::class, 'editInboundItems'])->name('editInboundItems');
+    //     Route::post('/update/{id}', [InboundItemsController::class, 'updateInboundItems'])->name('updateInboundItems');
+    //     Route::get('/delete/{id}', [InboundItemsController::class, 'deleteInboundItems'])->name('deleteInboundItems');
+    //     Route::get('/pdf', [InboundItemsController::class, 'pdfInboundItems'])->name('pdfInboundItems');
+    // });
+
     Route::prefix('barang-masuk')->group(function () {
-        Route::get('/', [InboundItemsController::class, 'indexInboundItems'])->name('indexInboundItems');
-        Route::get('/add', [InboundItemsController::class, 'createInboundItems'])->name('createInboundItems');
-        Route::post('/store', [InboundItemsController::class, 'storeInboundItems'])->name('storeInboundItems');
-        Route::get('/edit/{id}', [InboundItemsController::class, 'editInboundItems'])->name('editInboundItems');
-        Route::post('/update/{id}', [InboundItemsController::class, 'updateInboundItems'])->name('updateInboundItems');
-        Route::get('/delete/{id}', [InboundItemsController::class, 'deleteInboundItems'])->name('deleteInboundItems');
-        Route::get('/pdf', [InboundItemsController::class, 'pdfInboundItems'])->name('pdfInboundItems');
+        Route::get('/', [StockInboundController::class, 'indexInboundItems'])->name('indexInboundItems');
+        Route::get('/add', [StockInboundController::class, 'createInboundItems'])->name('createInboundItems');
+        Route::post('/store', [StockInboundController::class, 'storeInboundItems'])->name('storeInboundItems');
+        Route::get('/edit/{id}', [StockInboundController::class, 'editInboundItems'])->name('editInboundItems');
+        Route::post('/update/{id}', [StockInboundController::class, 'updateInboundItems'])->name('updateInboundItems');
+        Route::get('/delete/{id}', [StockInboundController::class, 'deleteInboundItems'])->name('deleteInboundItems');
+        Route::get('/pdf', [StockInboundController::class, 'pdfInboundItems'])->name('pdfInboundItems');
     });
 
+
+
     Route::prefix('barang-keluar')->group(function () {
-        Route::get('/', [OutboundItemsController::class, 'indexOutboundItems'])->name('indexOutboundItems');
-        Route::get('/add', [OutboundItemsController::class, 'createOutboundItems'])->name('createOutboundItems');
-        Route::post('/store', [OutboundItemsController::class, 'storeOutboundItems'])->name('storeOutboundItems');
-        Route::get('/edit/{id}', [OutboundItemsController::class, 'editOutboundItems'])->name('editOutboundItems');
-        Route::post('/update/{id}', [OutboundItemsController::class, 'updateOutboundItems'])->name('updateOutboundItems');
-        Route::get('/delete/{id}', [OutboundItemsController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
+        Route::get('/', [StockInboundController::class, 'indexOutboundItems'])->name('indexOutboundItems');
+        Route::get('/add', [StockInboundController::class, 'createOutboundItems'])->name('createOutboundItems');
+        Route::post('/store', [StockInboundController::class, 'storeOutboundItems'])->name('storeOutboundItems');
+        Route::get('/edit/{id}', [StockInboundController::class, 'editOutboundItems'])->name('editOutboundItems');
+        Route::post('/update/{id}', [StockInboundController::class, 'updateOutboundItems'])->name('updateOutboundItems');
+        Route::get('/delete/{id}', [StockInboundController::class, 'deleteOutboundItems'])->name('deleteOutboundItems');
     });
 
     Route::prefix('laporan-barang-masuk')->group(function () {
-        Route::get('/', [InboundItemsController::class, 'reportInboundItems'])->name('reportInboundItems');
+        // Route::get('/', [InboundItemsController::class, 'reportInboundItems'])->name('reportInboundItems');
+        Route::get('/', [StockInboundController::class, 'reportInboundItems'])->name('reportInboundItems');
     });
     Route::prefix('laporan-barang-keluar')->group(function () {
-        Route::get('/', [OutboundItemsController::class, 'reportOutboundItems'])->name('reportOutboundItems');
-        Route::get('/pdf', [OutboundItemsController::class, 'pdfOutboundItems'])->name('pdfOutboundItems');
+        Route::get('/', [StockInboundController::class, 'reportOutboundItems'])->name('reportOutboundItems');
+        Route::get('/pdf', [StockInboundController::class, 'pdfOutboundItems'])->name('pdfOutboundItems');
     });
 
-    Route::get('/sync-stok-fifo', [SyncStockController::class, 'syncStock'])->name('syncStock');
+    // Route::get('/sync-stok-fifo', [SyncStockController::class, 'syncStock'])->name('syncStock');
+
+    Route::get('/sync-stok-fifo', [StockInboundController::class, 'syncStockFIFO'])->name('syncStockFIFO');
+    Route::get('/sync-stok-fifo/pdf', [StockInboundController::class, 'pdfSyncStockFIFO'])->name('pdfSyncStockFIFO');
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

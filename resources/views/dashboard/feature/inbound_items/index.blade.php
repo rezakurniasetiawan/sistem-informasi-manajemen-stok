@@ -89,17 +89,16 @@
                                 <td>{{ $datas->quantity }}</td>
                                 <td> Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
                                 <td>
-                                    <a href="{{ route('editInboundItems', $datas->id_inbound_items) }}" type="button"
+                                    <a href="{{ route('editInboundItems', $datas->id) }}" type="button"
                                         class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>
                                         Edit</a>
-                                    <a href="{{ route('deleteInboundItems', $datas->id_inbound_items) }}"
-                                        type="button" class="btn btn-danger"
-                                        id="deleteGoodsButton-{{ $datas->id_inbound_items }}">
+                                    <a href="{{ route('deleteInboundItems', $datas->id) }}" type="button"
+                                        class="btn btn-danger" id="deleteGoodsButton-{{ $datas->id }}">
                                         <i class="align-middle" data-feather="trash"></i> Hapus
                                     </a>
 
                                     <script>
-                                        document.getElementById('deleteGoodsButton-{{ $datas->id_inbound_items }}').addEventListener('click', function(
+                                        document.getElementById('deleteGoodsButton-{{ $datas->id }}').addEventListener('click', function(
                                             event) {
                                             event.preventDefault(); // Mencegah link langsung dijalankan
 
@@ -114,7 +113,7 @@
                                                 cancelButtonText: 'Batal'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    window.location.href = "{{ route('deleteInboundItems', $datas->id_inbound_items) }}";
+                                                    window.location.href = "{{ route('deleteInboundItems', $datas->id) }}";
                                                 }
                                             });
                                         });

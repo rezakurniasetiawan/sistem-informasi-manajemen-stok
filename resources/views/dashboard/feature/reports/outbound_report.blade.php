@@ -107,7 +107,7 @@
                         @foreach ($data as $datas)
                             @php
                                 $totalPurchasePrice += $datas->purchase_price;
-                                $totalQuantity += $datas->quantity;
+                                $totalQuantity += $datas->quantity_out;
                                 $totalTotalPrice += $datas->total_price;
                             @endphp
                             <tr>
@@ -123,7 +123,7 @@
                                 <td>{{ $datas->code_mdsupplier }}</td>
                                 <td>{{ $datas->supplier_name }}</td>
                                 <td>Rp. {{ number_format($datas->purchase_price, 0, ',', '.') }}</td>
-                                <td>{{ $datas->quantity }}</td>
+                                <td>{{ $datas->quantity_out }}</td>
                                 <td>Rp. {{ number_format($datas->total_price, 0, ',', '.') }}</td>
                             </tr>
                         @endforeach

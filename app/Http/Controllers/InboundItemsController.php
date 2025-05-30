@@ -2,24 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InboundItems;
+use App\Models\Stock;
 use App\Models\MdGoods;
-use App\Models\MdSupplier;
 use App\Models\MdUnits;
+use App\Models\MdSupplier;
+use App\Models\InboundItems;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class InboundItemsController extends Controller
 {
     public function indexInboundItems(Request $request)
     {
         $entries = $request->get('entries', 10);
-        $data = InboundItems::join('md_goods', 'md_goods.id_mdgoods', '=', 'inbound_items.item_code')
-            ->join('md_units', 'md_units.id_mdunit', '=', 'inbound_items.unit')
-            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'inbound_items.supplier_code')
-            ->select('inbound_items.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
+        $data = Stock::join('md_goods', 'md_goods.id_mdgoods', '=', 'stocks.item_code')
+            ->join('md_units', 'md_units.id_mdunit', '=', 'stocks.unit')
+            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'stocks.supplier_code')
+            ->select('stocks.*', 'md_goods.code_mdgoods', 'md_units.name_mdunit', 'md_suppliers.code_mdsupplier')
             ->where('type', 'inbound')
             ->where('item_name', 'like', '%' . $request->search . '%')->paginate($entries);
+        $totalData = $data->total();
+
+        // $entries = $request->get('entries', 10);
+        // $search = $request->get('search', '');
+
+        // $data = Stock::join('md_goods', 'md_goods.id_mdgoods', '=', 'stock.item_code')
+        //     ->join('md_units', 'md_units.id_mdunit', '=', 'stock.unit')
+        //     ->leftJoin('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'stock.supplier_code')
+        //     ->select(
+        //         'stock.tanggal',
+        //         'stock.kode_transaksi',
+        //         'stock.type',
+        //         'stock.qty',
+        //         'stock.harga',
+        //         DB::raw('(stock.qty * stock.harga) as total_harga'),
+        //         'md_goods.code_mdgoods',
+        //         'md_units.name_mdunit',
+        //         'md_suppliers.code_mdsupplier'
+        //     )
+        //     ->where('stock.type', 'inbound')
+        //     ->where('md_goods.name_mdgoods', 'like', '%' . $search . '%')
+        //     ->orderBy('stock.tanggal')
+        //     ->paginate($entries);
+
         $totalData = $data->total();
 
         return view('dashboard.feature.inbound_items.index', compact('data', 'totalData'));
@@ -27,7 +53,8 @@ class InboundItemsController extends Controller
 
     public function createInboundItems()
     {
-        $lastInvoiceCode = InboundItems::orderBy('invoice_code', 'desc')->first();
+        // $lastInvoiceCode = InboundItems::orderBy('invoice_code', 'desc')->first();
+        $lastInvoiceCode = Stock::where('type', 'inbound')->orderBy('invoice_code', 'desc')->first();
 
         if ($lastInvoiceCode) {
             // Ambil kode terakhir, misalnya INV-00005
@@ -53,42 +80,48 @@ class InboundItemsController extends Controller
 
     public function storeInboundItems(Request $request)
     {
-        $request->validate([
-            'input_date' => 'required',
-            'user' => 'required',
-            'invoice_code' => 'required',
-            'item_code' => 'required',
-            'item_name' => 'required',
-            'unit' => 'required',
-            'supplier_code' => 'required',
-            'supplier_name' => 'required',
-            'purchase_price' => 'required',
-            'quantity' => 'required',
-            'total_price' => 'required',
-        ]);
+        // $request->validate([
+        //     'input_date' => 'required',
+        //     'user' => 'required',
+        //     'invoice_code' => 'required',
+        //     'item_code' => 'required',
+        //     'item_name' => 'required',
+        //     'unit' => 'required',
+        //     'supplier_code' => 'required',
+        //     'supplier_name' => 'required',
+        //     'purchase_price' => 'required',
+        //     'quantity' => 'required',
+        //     'total_price' => 'required',
+        // ]);
 
-        $data = [
-            'input_date' => $request->input_date,
-            'user' => $request->user,
-            'invoice_code' => $request->invoice_code,
-            'item_code' => $request->item_code,
-            'item_name' => $request->item_name,
-            'unit' => $request->unit,
-            'supplier_code' => $request->supplier_code,
-            'supplier_name' => $request->supplier_name,
-            'purchase_price' => (int) preg_replace('/[^0-9]/', '', $request->purchase_price),
-            'quantity' => $request->quantity,
-            'total_price' => (int) preg_replace('/[^0-9]/', '', $request->total_price),
-            'type' => 'inbound',
-        ];
+        // $data = [
+        //     'input_date' => $request->input_date,
+        //     'user' => $request->user,
+        //     'invoice_code' => $request->invoice_code,
+        //     'item_code' => $request->item_code,
+        //     'item_name' => $request->item_name,
+        //     'unit' => $request->unit,
+        //     'supplier_code' => $request->supplier_code,
+        //     'supplier_name' => $request->supplier_name,
+        //     'purchase_price' => (int) preg_replace('/[^0-9]/', '', $request->purchase_price),
+        //     'quantity' => $request->quantity,
+        //     'total_price' => (int) preg_replace('/[^0-9]/', '', $request->total_price),
+        //     'type' => 'inbound',
+        // ];
 
-        InboundItems::create($data);
+        // InboundItems::create($data);
+
+        Stock::create($request->all() + ['type' => 'inbound']);
         return redirect()->route('indexInboundItems')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function editInboundItems($id)
     {
-        $data = InboundItems::where('id_inbound_items', $id)->first();
+        // $data = InboundItems::where('id_inbound_items', $id)->first();
+        // $items = MdGoods::all();
+        // $suppliers = MdSupplier::all();
+
+        $data = Stock::where('id', $id)->first();
         $items = MdGoods::all();
         $suppliers = MdSupplier::all();
         return view('dashboard.feature.inbound_items.update', compact('data', 'items', 'suppliers'));
@@ -153,7 +186,7 @@ class InboundItemsController extends Controller
 
     // Laporan Barang Masuk
     public function reportInboundItems(Request $request)
-    {   
+    {
         $datenow = date('Y-m-d');
         $startDate = $request->get('start_date', $datenow);
         $endDate = $request->get('end_date', date('Y-m-d', strtotime($startDate . ' + 7 days')));

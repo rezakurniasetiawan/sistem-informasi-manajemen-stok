@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col-6 col-lg-6 col-xxl-6 d-flex">
             <div class="card flex-fill p-4">
-                <form action="{{ route('updateInboundItems', $data->id_inbound_items) }}" method="POST">
+                <form action="{{ route('updateInboundItems', $data->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $data->id_inbound_items }}">
+                    <input type="hidden" name="id" value="{{ $data->id }}">
                     {{-- Tanggal Input --}}
                     <div class="mb-2">
                         <label for="name" class="form-label">Tanggal Input</label>
@@ -42,7 +42,7 @@
                             <option selected>Pilih Kode Barang</option>
                             @foreach ($items as $item)
                                 <option value="{{ $item->id_mdgoods }}" data-name="{{ $item->name_mdgoods }}"
-                                    data-unit="{{ $item->idunit_mdgoods }}"
+                                    @readonly(true) data-unit="{{ $item->idunit_mdgoods }}"
                                     {{ $data->item_code == $item->id_mdgoods ? 'selected' : '' }}>
                                     {{ $item->code_mdgoods }}
                                 </option>
@@ -119,7 +119,7 @@
                     {{-- Jumlah Barang --}}
                     <div class="mb-2">
                         <label for="name" class="form-label">Jumlah Barang</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity"
+                        <input type="number" class="form-control" id="quantity" name="quantity" readonly
                             value="{{ $data->quantity }}">
 
                     </div>

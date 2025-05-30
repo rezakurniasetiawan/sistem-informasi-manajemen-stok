@@ -77,8 +77,8 @@
                         Keluar</span>
                 </a>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('syncStock') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('syncStock') }}">
+            <li class="sidebar-item {{ request()->routeIs('syncStockFIFO') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('syncStockFIFO') }}">
                     <i class="align-middle" data-feather="refresh-cw"></i> <span class="align-middle">Sync Stok
                         FIFO</span>
                 </a>

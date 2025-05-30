@@ -107,10 +107,10 @@
                         </div>
 
                         {{-- Total Harga --}}
-                        <div class="mb-2">
+                        {{-- <div class="mb-2">
                             <label for="name" class="form-label">Total Harga</label>
                             <input type="text" class="form-control" id="total_price" name="total_price">
-                        </div>
+                        </div> --}}
 
 
 
