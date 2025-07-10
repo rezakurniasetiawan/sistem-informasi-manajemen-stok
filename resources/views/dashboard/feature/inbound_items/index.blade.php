@@ -76,7 +76,7 @@
                             <tr>
                                 <td scope="row">
                                     {{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}.</td>
-                                <td> {{ \Carbon\Carbon::parse($datas->created_at)->locale('id')->translatedFormat('d F Y') }}
+                                <td> {{ \Carbon\Carbon::parse($datas->input_date)->locale('id')->translatedFormat('d F Y') }}
                                 </td>
                                 <td>{{ $datas->user }}</td>
                                 <td>{{ $datas->invoice_code }}</td>

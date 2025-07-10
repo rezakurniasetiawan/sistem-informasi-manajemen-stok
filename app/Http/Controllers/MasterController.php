@@ -227,9 +227,9 @@ class MasterController extends Controller
     public function editSupplier($id)
     {
         $data = MdSupplier::join('users', 'users.id', '=', 'md_suppliers.id_user')
-        ->select('md_suppliers.*', 'users.name')
-        ->where('md_suppliers.id', $id)
-        ->first();
+            ->select('md_suppliers.*', 'users.name')
+            ->where('md_suppliers.id', $id)
+            ->first();
 
 
         return view('dashboard.feature.masterdata.suppliers.update', compact('data'));
@@ -268,9 +268,9 @@ class MasterController extends Controller
     public function indexGoods(Request $request)
     {
         $entries = $request->get('entries', 10);
-        $data = MdGoods::join('md_categories', 'md_categories.id', '=', 'md_goods.idcategory_mdgoods')
-            ->join('md_units', 'md_units.id', '=', 'md_goods.idunit_mdgoods')
-            ->join('md_suppliers', 'md_suppliers.id', '=', 'md_goods.idsupplier_mdgoods')
+        $data = MdGoods::join('md_categories', 'md_categories.id_mdcategory', '=', 'md_goods.idcategory_mdgoods')
+            ->join('md_units', 'md_units.id_mdunit', '=', 'md_goods.idunit_mdgoods')
+            ->join('md_suppliers', 'md_suppliers.id_mdsupplier', '=', 'md_goods.idsupplier_mdgoods')
             ->join('users', 'users.id', '=', 'md_goods.id_user')
             ->select('md_goods.*', 'md_categories.name_mdcategory', 'md_units.name_mdunit', 'md_suppliers.name_mdsupplier', 'users.name')
             ->where('name_mdgoods', 'like', '%' . $request->search . '%')->paginate($entries);
@@ -282,7 +282,7 @@ class MasterController extends Controller
     public function pdfGoods(Request $request)
     {
         $entries = $request->get('entries', 10);
-        $data = MdGoods::join('md_categories', 'md_categories.id', '=', 'md_goods.idcategory_mdgoods')
+        $data = MdGoods::join('md_categories', 'md_categories.id_mdcategory', '=', 'md_goods.idcategory_mdgoods')
             ->join('md_units', 'md_units.id', '=', 'md_goods.idunit_mdgoods')
             ->join('md_suppliers', 'md_suppliers.id', '=', 'md_goods.idsupplier_mdgoods')
             ->join('users', 'users.id', '=', 'md_goods.id_user')
