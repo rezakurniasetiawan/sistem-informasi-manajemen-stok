@@ -88,7 +88,7 @@ class StockInboundController extends Controller
             $data = Stock::create([
                 'input_date'     => now(),
                 'user'           => auth()->user()?->name ?? 'Unknown',
-                'invoice_code'   => 'IN-' . time(),
+                'invoice_code'   => $request->invoice_code,
                 'item_code'      => $request->item_code,
                 'item_name'      => $request->item_name,
                 'unit'           => $request->unit,
@@ -225,6 +225,8 @@ class StockInboundController extends Controller
             $code = 'INV-00001';
         }
 
+        // dd($code);
+
         $items = MdGoods::all();
         $suppliers = MdSupplier::all();
         return view('dashboard.feature.outbound_items.add', compact('code', 'items', 'suppliers'));
@@ -272,10 +274,13 @@ class StockInboundController extends Controller
 
                 $quantityAfter = $inbound->quantity_out; // sisa stok setelah pengurangan
 
+                // time format DDMMYYYY-HHMMSS
+                $invoiceCode = 'OUT-' . date('dmy-His');
+
                 Stock::create([
                     'input_date'     => now(),
                     'user'           => $user,
-                    'invoice_code'   => 'OUT-' . time(),
+                    'invoice_code'   => $request->invoice_code,
                     'item_code'      => $inbound->item_code,
                     'item_name'      => $inbound->item_name,
                     'unit'           => $inbound->unit,

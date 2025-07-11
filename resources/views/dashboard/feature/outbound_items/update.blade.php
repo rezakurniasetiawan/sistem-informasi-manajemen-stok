@@ -59,9 +59,9 @@
 
                     {{-- Satuan --}}
                     <div class="mb-2">
-                        <label for="name" class="form-label">Satuan</label>
+                        {{-- <label for="name" class="form-label">Satuan</label> --}}
                         <input type="text" class="form-control" id="unit" name="unit"
-                            value="{{ $data->unit }}" readonly>
+                            value="{{ $data->unit }}" hidden>
                     </div>
 
                     <script>

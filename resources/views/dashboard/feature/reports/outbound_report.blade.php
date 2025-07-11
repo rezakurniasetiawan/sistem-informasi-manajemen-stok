@@ -11,7 +11,7 @@
             });
         </script>
     @endif
-    <h1 class="h3 mb-3"><strong>Laporan</strong> Barang Masuk</h1>
+    <h1 class="h3 mb-3"><strong>Laporan</strong> Barang Keluar</h1>
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill p-4">
@@ -88,7 +88,7 @@
                             <th scope="col">Satuan</th>
                             <th scope="col">Kode Supplier</th>
                             <th scope="col">Nama Supplier</th>
-                            <th scope="col">Harga Beli</th>
+                            <th scope="col">Harga Jual</th>
                             <th scope="col">Jumlah Barang</th>
                             <th scope="col">Total Harga</th>
                         </tr>
@@ -131,8 +131,8 @@
                     @if ($data->isNotEmpty())
                         <tfoot>
                             <tr class="table-dark">
-                                <th colspan="9" class="text-end">Total</th>
-                                <th>Rp. {{ number_format($totalPurchasePrice, 0, ',', '.') }}</th>
+                                <th colspan="10" class="text-end">Total</th>
+                                {{-- <th>Rp. {{ number_format($totalPurchasePrice, 0, ',', '.') }}</th> --}}
                                 <th>{{ $totalQuantity }}</th>
                                 <th>Rp. {{ number_format($totalTotalPrice, 0, ',', '.') }}</th>
                             </tr>

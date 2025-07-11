@@ -56,14 +56,12 @@
 
                         <div class="mb-2">
                             <label for="name" class="form-label">Harga Beli</label>
-                            <input type="text" class="form-control" id="hargabeli"
-                                name="purchase_price_mdgoods">
+                            <input type="text" class="form-control" id="hargabeli" name="purchase_price_mdgoods">
                         </div>
 
                         <div class="mb-2">
                             <label for="name" class="form-label">Harga Jual</label>
-                            <input type="text" class="form-control" id="hargajual"
-                                name="selling_price_mdgoods">
+                            <input type="text" class="form-control" id="hargajual" name="selling_price_mdgoods">
                         </div>
 
                         <div class="mb-2">
@@ -137,10 +135,10 @@
                         </script>
 
 
-                        <div class="mb-2">
+                        {{-- <div class="mb-2">
                             <label for="name" class="form-label">Stok</label>
                             <input type="text" class="form-control" id="stock_mdgoods" name="stock_mdgoods">
-                        </div>
+                        </div> --}}
 
 
 

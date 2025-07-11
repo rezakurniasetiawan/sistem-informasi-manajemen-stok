@@ -87,7 +87,7 @@
     <div class="header">
         <img src="{{ public_path('path/to/logo.png') }}" alt="LOGO Toko Listrik LIA">
         <h1>TOKO LISTRIK LIA</h1>
-        <p>Jalan Bungurasih Utara I / 1B RT 5 RW 4, Waru - Sidoarjo 61256</p>
+        <p>Jalan Bungurasih Utara I / 1A RT 5 RW 4, Waru - Sidoarjo 61256</p>
         <hr>
     </div>
 
@@ -105,7 +105,7 @@
                 <th>Harga Jual</th>
                 <th>Supplier</th>
                 <th>Kode Supplier</th>
-                <th>Stok</th>
+                {{-- <th>Stok</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -123,7 +123,7 @@
                     <td> {{ $item->selling_price_mdgoods }}</td>
                     <td> {{ $item->name_mdsupplier }}</td>
                     <td> {{ $item->code_supplier_mdgoods }}</td>
-                    <td> {{ $item->stock_mdgoods }}</td>
+                    {{-- <td> {{ $item->stock_mdgoods }}</td> --}}
                 </tr>
             @endforeach
         </tbody>

@@ -70,7 +70,7 @@
                             <th scope="col">Harga Jual</th>
                             <th scope="col">Supplier</th>
                             <th scope="col">Kode Supplier</th>
-                            <th scope="col">Stok</th>
+                            {{-- <th scope="col">Stok</th> --}}
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -90,7 +90,7 @@
                                 <td> Rp. {{ number_format($datas->selling_price_mdgoods, 0, ',', '.') }}</td>
                                 <td> {{ $datas->name_mdsupplier }}</td>
                                 <td> {{ $datas->code_supplier_mdgoods }}</td>
-                                <td> {{ $datas->stock_mdgoods }}</td>
+                                {{-- <td> {{ $datas->stock_mdgoods }}</td> --}}
                                 <td>
                                     <a href="{{ route('editGoods', $datas->id_mdgoods) }}" type="button"
                                         class="btn btn-warning"> <i class="align-middle" data-feather="edit"></i>

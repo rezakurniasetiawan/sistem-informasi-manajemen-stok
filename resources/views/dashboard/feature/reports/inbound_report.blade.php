@@ -127,8 +127,8 @@
                         @endforeach
                         @if ($data->isNotEmpty())
                             <tr class="table-dark">
-                                <td colspan="9" class="text-end">Total</td>
-                                <td>Rp. {{ number_format($totalHargaBeli, 0, ',', '.') }}</td>
+                                <td colspan="10" class="text-end">Total</td>
+                                {{-- <td>Rp. {{ number_format($totalHargaBeli, 0, ',', '.') }}</td> --}}
                                 <td>{{ $totalJumlahBarang }}</td>
                                 <td>Rp. {{ number_format($totalHargaKeseluruhan, 0, ',', '.') }}</td>
                             </tr>

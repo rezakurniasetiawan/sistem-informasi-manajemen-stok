@@ -97,11 +97,11 @@
 
 
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="name" class="form-label">Stok</label>
                         <input type="text" class="form-control" id="stock_mdgoods" name="stock_mdgoods"
                             value="{{ $data->stock_mdgoods }}">
-                    </div>
+                    </div> --}}
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

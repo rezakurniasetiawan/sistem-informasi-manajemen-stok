@@ -88,7 +88,7 @@ laporan-barang-keluar
     <div class="header">
         <img src="{{ public_path('path/to/logo.png') }}" alt="LOGO Toko Listrik LIA">
         <h1>TOKO LISTRIK LIA</h1>
-        <p>Jalan Bungurasih Utara I / 1B RT 5 RW 4, Waru - Sidoarjo 61256</p>
+        <p>Jalan Bungurasih Utara I / 1A RT 5 RW 4, Waru - Sidoarjo 61256</p>
         <hr>
     </div>
 
@@ -122,7 +122,7 @@ laporan-barang-keluar
                     <td>{{ $item->code_mdsupplier }}</td>
                     <td>{{ $item->supplier_name }}</td>
                     <td> Rp. {{ number_format($item->purchase_price, 0, ',', '.') }}</td>
-                    <td>{{ $item->quantity }}</td>
+                    <td>{{ $item->quantity_out }}</td>
                     <td> Rp. {{ number_format($item->total_price, 0, ',', '.') }}</td>
                 </tr>
             @endforeach

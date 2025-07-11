@@ -1,17 +1,16 @@
 @include('dashboard.components.head')
 <div class="container-fluid p-0">
-@if (session()->has('error'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "{{ session('error') }}", // Menampilkan pesan dari session
+    @if (session()->has('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "{{ session('error') }}", // Menampilkan pesan dari session
+                });
             });
-        });
-    </script>
-    
-@endif
+        </script>
+    @endif
     <h1 class="h3 mb-3"><strong>Tambah</strong> - Laporan Barang Keluar</h1>
     <div class="row">
         <div class="col-12 col-lg-6 col-xxl-6 d-flex">
@@ -63,8 +62,8 @@
 
                     {{-- Satuan --}}
                     <div class="mb-2">
-                        <label for="name" class="form-label">Satuan</label>
-                        <input type="text" class="form-control" id="unit" name="unit" readonly>
+                        {{-- <label for="name" class="form-label">Satuan</label> --}}
+                        <input type="text" class="form-control" id="unit" name="unit" hidden>
                     </div>
 
                     <script>

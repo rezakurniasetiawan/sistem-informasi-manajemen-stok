@@ -53,8 +53,8 @@
 
                         {{-- Satuan --}}
                         <div class="mb-2">
-                            <label for="name" class="form-label">Satuan</label>
-                            <input type="text" class="form-control" id="unit" name="unit" readonly>
+                            {{-- <label for="name" class="form-label">Satuan</label> --}}
+                            <input type="text" class="form-control" id="unit" name="unit" hidden>
                         </div>
 
                         <script>
