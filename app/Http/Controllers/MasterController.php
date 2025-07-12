@@ -353,6 +353,7 @@ class MasterController extends Controller
             'selling_price_mdgoods' => (int) preg_replace('/[^0-9]/', '', $request->selling_price_mdgoods),
             'idsupplier_mdgoods' => $request->idsupplier_mdgoods,
             'code_supplier_mdgoods' => $request->code_supplier_mdgoods,
+            'stock_mdgoods' => 0,
             // 'stock_mdgoods' => $request->stock_mdgoods
         ];
 
@@ -394,7 +395,7 @@ class MasterController extends Controller
             'purchase_price_mdgoods' => 'required',
             'selling_price_mdgoods' => 'required',
             'idsupplier_mdgoods' => 'required',
-            'stock_mdgoods' => 'required'
+            // 'stock_mdgoods' => 'required'
         ]);
 
         $update = [
@@ -405,6 +406,7 @@ class MasterController extends Controller
             'selling_price_mdgoods' => $request->selling_price_mdgoods,
             'idsupplier_mdgoods' => $request->idsupplier_mdgoods,
             'code_supplier_mdgoods' => $request->code_supplier_mdgoods,
+            'stock_mdgoods' => 0,
             // 'stock_mdgoods' => $request->stock_mdgoods
         ];
 

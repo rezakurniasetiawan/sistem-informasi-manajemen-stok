@@ -44,10 +44,10 @@ class StockInboundController extends Controller
             $newNumber = $lastNumber + 1;
 
             // Format dengan leading zero, contoh: 00006
-            $code = 'INV-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+            $code = 'IN-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
         } else {
             // Jika tidak ada data, mulai dari INV-00001
-            $code = 'INV-00001';
+            $code = 'IN-00001';
         }
 
         $items = MdGoods::all();
@@ -219,10 +219,10 @@ class StockInboundController extends Controller
             $newNumber = $lastNumber + 1;
 
             // Format dengan leading zero, contoh: 00006
-            $code = 'INV-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+            $code = 'OUT-' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
         } else {
             // Jika tidak ada data, mulai dari INV-00001
-            $code = 'INV-00001';
+            $code = 'OUT-00001';
         }
 
         // dd($code);
